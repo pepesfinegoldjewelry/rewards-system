@@ -1,0 +1,2560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+
+  <title>PFGJI Rewards System</title>
+
+  <!-- QR Scanner -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f6f8;
+      color: #1f2937;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       LOGIN
+       ========================= */
+
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #f5f6f8;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 32px 28px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo-area {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo-placeholder {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      background: #111827;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .logo-area h1 {
+      margin: 0;
+      font-size: 25px;
+      color: #111827;
+    }
+
+    .logo-area p {
+      margin: 7px 0 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .form-control {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #111827;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: #111827;
+      box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+    }
+
+    .primary-btn {
+      width: 100%;
+      min-height: 48px;
+      border: none;
+      border-radius: 10px;
+      background: #111827;
+      color: #ffffff;
+      font-weight: 700;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .primary-btn:hover {
+      opacity: 0.92;
+    }
+
+    .primary-btn:active {
+      transform: scale(0.99);
+    }
+
+    .primary-btn:disabled,
+    .secondary-btn:disabled,
+    .transaction-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .error-message,
+    .success-message,
+    .info-message {
+      padding: 11px 13px;
+      border-radius: 9px;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .error-message {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .success-message {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    .info-message {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    /* =========================
+       MAIN APP
+       ========================= */
+
+    .app {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: #111827;
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topbar-title {
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .topbar-subtitle {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+
+    .logout-btn {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: transparent;
+      color: #ffffff;
+      padding: 8px 13px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 22px 16px 40px;
+    }
+
+    /* =========================
+       SEARCH
+       ========================= */
+
+    .card {
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-title {
+      margin: 0 0 5px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .card-description {
+      margin: 0 0 16px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 9px;
+    }
+
+    .search-row .form-control {
+      flex: 1;
+    }
+
+    .search-btn {
+      min-width: 100px;
+      border: none;
+      border-radius: 10px;
+      background: #111827;
+      color: #ffffff;
+      font-weight: 700;
+      padding: 0 18px;
+    }
+
+    .scan-btn {
+      min-width: 105px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #111827;
+      font-weight: 700;
+      padding: 0 15px;
+    }
+
+    .scan-btn:hover {
+      background: #f9fafb;
+    }
+
+    /* =========================
+       SCANNER
+       ========================= */
+
+    .scanner-container {
+      margin-top: 15px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px;
+      background: #fafafa;
+    }
+
+    #qr-reader {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .scanner-close {
+      width: 100%;
+      margin-top: 10px;
+      min-height: 42px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      background: #ffffff;
+      font-weight: 600;
+    }
+
+    /* =========================
+       CUSTOMER
+       ========================= */
+
+    .customer-card {
+      border: 1px solid #e5e7eb;
+    }
+
+    .customer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .customer-name {
+      margin: 0;
+      font-size: 24px;
+      color: #111827;
+      word-break: break-word;
+    }
+
+    .customer-type {
+      display: inline-block;
+      margin-top: 7px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #374151;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .customer-id {
+      font-size: 12px;
+      color: #6b7280;
+      word-break: break-all;
+      text-align: right;
+    }
+
+    .customer-info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .info-box {
+      background: #f9fafb;
+      border: 1px solid #eef0f2;
+      border-radius: 11px;
+      padding: 13px;
+    }
+
+    .info-label {
+      font-size: 11px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 5px;
+    }
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      word-break: break-word;
+    }
+
+    /* =========================
+       POINTS
+       ========================= */
+
+    .points-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      border-radius: 12px;
+      padding: 15px;
+      background: #f9fafb;
+      border: 1px solid #eef0f2;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #6b7280;
+      margin-bottom: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .stat-value {
+      font-size: 23px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    /* =========================
+       TRANSACTION
+       ========================= */
+
+    .transaction-section {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 20px;
+    }
+
+    .transaction-title {
+      margin: 0 0 12px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .transaction-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .transaction-btn {
+      min-height: 48px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      color: #374151;
+      font-weight: 800;
+      transition: all 0.15s;
+    }
+
+    .transaction-btn.active {
+      background: #111827;
+      color: #ffffff;
+      border-color: #111827;
+    }
+
+    .amount-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .amount-row .form-control {
+      flex: 1;
+    }
+
+    .transaction-confirm-btn {
+      min-width: 180px;
+      border: none;
+      border-radius: 10px;
+      background: #111827;
+      color: #ffffff;
+      font-weight: 800;
+      padding: 0 18px;
+    }
+
+    .transaction-note {
+      margin: 9px 0 0;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    /* =========================
+       EMPTY STATE
+       ========================= */
+
+    .empty-state {
+      text-align: center;
+      padding: 35px 20px;
+      color: #6b7280;
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .empty-state h3 {
+      margin: 0 0 6px;
+      color: #374151;
+      font-size: 17px;
+    }
+
+    .empty-state p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    /* =========================
+       LOADING
+       ========================= */
+
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spinner {
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    .spinner-dark {
+      border-color: rgba(17, 24, 39, 0.2);
+      border-top-color: #111827;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       TOAST
+       ========================= */
+
+    .toast-container {
+      position: fixed;
+      top: 75px;
+      right: 18px;
+      z-index: 9999;
+      width: min(360px, calc(100% - 36px));
+    }
+
+    .toast {
+      background: #111827;
+      color: #ffffff;
+      padding: 13px 15px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      font-size: 13px;
+      animation: toastIn 0.2s ease;
+    }
+
+    .toast.success {
+      background: #047857;
+    }
+
+    .toast.error {
+      background: #b91c1c;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media (max-width: 750px) {
+      .topbar {
+        padding: 13px 15px;
+      }
+
+      .topbar-title {
+        font-size: 17px;
+      }
+
+      .container {
+        padding: 15px 12px 30px;
+      }
+
+      .card {
+        padding: 16px;
+        border-radius: 13px;
+      }
+
+      .search-row {
+        display: grid;
+        grid-template-columns: 1fr 90px;
+      }
+
+      .search-btn {
+        min-width: 0;
+      }
+
+      .scan-btn {
+        grid-column: span 2;
+        min-height: 44px;
+      }
+
+      .customer-header {
+        flex-direction: column;
+      }
+
+      .customer-id {
+        text-align: left;
+      }
+
+      .customer-info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .points-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .amount-row {
+        flex-direction: column;
+      }
+
+      .transaction-confirm-btn {
+        min-height: 48px;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .login-card {
+        padding: 25px 18px;
+      }
+
+      .points-grid {
+        gap: 8px;
+      }
+
+      .stat-card {
+        padding: 12px;
+      }
+
+      .stat-value {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       LOGIN PAGE
+       ========================= -->
+
+  <section id="loginPage" class="login-page">
+
+    <div class="login-card">
+
+      <div class="logo-area">
+        <div class="logo-placeholder">PFGJI</div>
+
+        <h1>Rewards System</h1>
+
+        <p>
+          Staff Login
+        </p>
+      </div>
+
+      <div id="loginError" class="error-message hidden"></div>
+
+      <form id="loginForm">
+
+        <div class="form-group">
+          <label for="pinInput">
+            Staff PIN
+          </label>
+
+          <input
+            id="pinInput"
+            class="form-control"
+            type="password"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="Enter staff PIN"
+            maxlength="50"
+            required
+          />
+        </div>
+
+        <button
+          id="loginButton"
+          class="primary-btn"
+          type="submit"
+        >
+          Login
+        </button>
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MAIN APPLICATION
+       ========================= -->
+
+  <section id="appPage" class="app hidden">
+
+    <header class="topbar">
+
+      <div>
+        <div class="topbar-title">
+          PFGJI Rewards
+        </div>
+
+        <div class="topbar-subtitle">
+          Membership Points System
+        </div>
+      </div>
+
+      <button
+        id="logoutButton"
+        class="logout-btn"
+        type="button"
+      >
+        Logout
+      </button>
+
+    </header>
+
+
+    <main class="container">
+
+      <!-- SEARCH CARD -->
+
+      <section class="card">
+
+        <h2 class="card-title">
+          Find Customer
+        </h2>
+
+        <p class="card-description">
+          Search using Membership QR ID, customer name, or Facebook name.
+        </p>
+
+        <div id="searchMessage"></div>
+
+        <div class="search-row">
+
+          <input
+            id="searchInput"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            placeholder="Enter QR ID or customer name"
+          />
+
+          <button
+            id="searchButton"
+            class="search-btn"
+            type="button"
+          >
+            Search
+          </button>
+
+          <button
+            id="scanButton"
+            class="scan-btn"
+            type="button"
+          >
+            Scan QR
+          </button>
+
+        </div>
+
+
+        <!-- QR SCANNER -->
+
+        <div
+          id="scannerContainer"
+          class="scanner-container hidden"
+        >
+
+          <div id="qr-reader"></div>
+
+          <button
+            id="closeScannerButton"
+            class="scanner-close"
+            type="button"
+          >
+            Close Scanner
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- CUSTOMER AREA -->
+
+      <section
+        id="customerSection"
+        class="card customer-card hidden"
+      >
+
+        <div class="customer-header">
+
+          <div>
+
+            <h2
+              id="customerName"
+              class="customer-name"
+            >
+              Customer
+            </h2>
+
+            <span
+              id="customerType"
+              class="customer-type"
+            >
+              Customer
+            </span>
+
+          </div>
+
+          <div
+            id="customerId"
+            class="customer-id"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <!-- CUSTOMER INFORMATION -->
+
+        <div class="customer-info-grid">
+
+          <div class="info-box">
+
+            <div class="info-label">
+              Membership QR ID
+            </div>
+
+            <div
+              id="infoCustomerId"
+              class="info-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <div class="info-label">
+              Facebook Name
+            </div>
+
+            <div
+              id="infoFacebookName"
+              class="info-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <div class="info-label">
+              Customer Name
+            </div>
+
+            <div
+              id="infoCustomerName"
+              class="info-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <div class="info-label">
+              Customer Type
+            </div>
+
+            <div
+              id="infoCustomerType"
+              class="info-value"
+            >
+              -
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- POINTS -->
+
+        <div class="points-grid">
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Buy Count
+            </div>
+
+            <div
+              id="buyCount"
+              class="stat-value"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Sell Count
+            </div>
+
+            <div
+              id="sellCount"
+              class="stat-value"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Total Points
+            </div>
+
+            <div
+              id="totalPoints"
+              class="stat-value"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Total Amount
+            </div>
+
+            <div
+              id="overallTotalAmount"
+              class="stat-value"
+            >
+              ₱0.00
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- TRANSACTION -->
+
+        <div class="transaction-section">
+
+          <h3 class="transaction-title">
+            Record Transaction
+          </h3>
+
+
+          <div
+            id="transactionMessage"
+          ></div>
+
+
+          <div class="transaction-buttons">
+
+            <button
+              id="buyButton"
+              class="transaction-btn active"
+              type="button"
+              data-type="Buy"
+            >
+              BUY
+            </button>
+
+            <button
+              id="sellButton"
+              class="transaction-btn"
+              type="button"
+              data-type="Sell"
+            >
+              SELL
+            </button>
+
+          </div>
+
+
+          <div class="amount-row">
+
+            <input
+              id="amountInput"
+              class="form-control"
+              type="number"
+              inputmode="decimal"
+              min="0.01"
+              step="0.01"
+              placeholder="Transaction amount"
+            />
+
+            <button
+              id="transactionButton"
+              class="transaction-confirm-btn"
+              type="button"
+            >
+              Confirm Transaction
+            </button>
+
+          </div>
+
+
+          <p class="transaction-note">
+            Every Buy or Sell transaction automatically adds
+            <strong>+1 point</strong>.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- EMPTY STATE -->
+
+      <section
+        id="emptyState"
+        class="card empty-state"
+      >
+
+        <div class="empty-icon">
+          ⭐
+        </div>
+
+        <h3>
+          Ready for a transaction
+        </h3>
+
+        <p>
+          Search or scan a customer's membership QR code to begin.
+        </p>
+
+      </section>
+
+    </main>
+
+  </section>
+
+
+  <!-- TOAST -->
+
+  <div
+    id="toastContainer"
+    class="toast-container"
+  ></div>
+
+
+  <script>
+
+    /*
+     * ============================================================
+     * REWARDS SYSTEM - GITHUB PAGES
+     * ============================================================
+     *
+     * IMPORTANT:
+     * Replace this URL after creating the Rewards Cloudflare Worker.
+     *
+     * Example:
+     *
+     * const API_URL =
+     *   "https://pfgji-rewards-api.your-subdomain.workers.dev";
+     *
+     * ============================================================
+     */
+
+    const API_URL =
+      "YOUR_REWARDS_CLOUDFLARE_WORKER_URL";
+
+
+    /*
+     * ============================================================
+     * STATE
+     * ============================================================
+     */
+
+    let sessionToken =
+      sessionStorage.getItem("rewardsSessionToken") || "";
+
+    let currentCustomer = null;
+
+    let selectedTransactionType = "Buy";
+
+    let isSearching = false;
+
+    let isSubmittingTransaction = false;
+
+    let html5QrCode = null;
+
+    let scannerRunning = false;
+
+
+    /*
+     * ============================================================
+     * ELEMENTS
+     * ============================================================
+     */
+
+    const loginPage =
+      document.getElementById("loginPage");
+
+    const appPage =
+      document.getElementById("appPage");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const pinInput =
+      document.getElementById("pinInput");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const loginError =
+      document.getElementById("loginError");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    const searchButton =
+      document.getElementById("searchButton");
+
+    const scanButton =
+      document.getElementById("scanButton");
+
+    const scannerContainer =
+      document.getElementById("scannerContainer");
+
+    const closeScannerButton =
+      document.getElementById("closeScannerButton");
+
+    const customerSection =
+      document.getElementById("customerSection");
+
+    const emptyState =
+      document.getElementById("emptyState");
+
+    const customerName =
+      document.getElementById("customerName");
+
+    const customerType =
+      document.getElementById("customerType");
+
+    const customerId =
+      document.getElementById("customerId");
+
+    const infoCustomerId =
+      document.getElementById("infoCustomerId");
+
+    const infoFacebookName =
+      document.getElementById("infoFacebookName");
+
+    const infoCustomerName =
+      document.getElementById("infoCustomerName");
+
+    const infoCustomerType =
+      document.getElementById("infoCustomerType");
+
+    const buyCount =
+      document.getElementById("buyCount");
+
+    const sellCount =
+      document.getElementById("sellCount");
+
+    const totalPoints =
+      document.getElementById("totalPoints");
+
+    const overallTotalAmount =
+      document.getElementById("overallTotalAmount");
+
+    const buyButton =
+      document.getElementById("buyButton");
+
+    const sellButton =
+      document.getElementById("sellButton");
+
+    const amountInput =
+      document.getElementById("amountInput");
+
+    const transactionButton =
+      document.getElementById("transactionButton");
+
+    const searchMessage =
+      document.getElementById("searchMessage");
+
+    const transactionMessage =
+      document.getElementById("transactionMessage");
+
+    const toastContainer =
+      document.getElementById("toastContainer");
+
+
+    /*
+     * ============================================================
+     * INITIALIZATION
+     * ============================================================
+     */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+        if (sessionToken) {
+
+          showApp();
+
+        } else {
+
+          showLogin();
+
+        }
+
+      }
+    );
+
+
+    /*
+     * ============================================================
+     * LOGIN
+     * ============================================================
+     */
+
+    loginForm.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+        clearLoginError();
+
+        const pin =
+          pinInput.value.trim();
+
+        if (!pin) {
+
+          showLoginError(
+            "Please enter the staff PIN."
+          );
+
+          return;
+        }
+
+        setLoginLoading(true);
+
+        try {
+
+          const result =
+            await apiRequest(
+              "login",
+              {
+                pin: pin
+              },
+              false
+            );
+
+          if (!result.success) {
+
+            throw new Error(
+              result.message ||
+              "Invalid PIN."
+            );
+
+          }
+
+          sessionToken =
+            result.token || "";
+
+          if (!sessionToken) {
+
+            throw new Error(
+              "Login succeeded but no session token was returned."
+            );
+
+          }
+
+          sessionStorage.setItem(
+            "rewardsSessionToken",
+            sessionToken
+          );
+
+          pinInput.value = "";
+
+          showToast(
+            "Login successful.",
+            "success"
+          );
+
+          showApp();
+
+        } catch (error) {
+
+          showLoginError(
+            error.message ||
+            "Unable to login."
+          );
+
+        } finally {
+
+          setLoginLoading(false);
+
+        }
+
+      }
+    );
+
+
+    /*
+     * ============================================================
+     * LOGOUT
+     * ============================================================
+     */
+
+    logoutButton.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          if (sessionToken) {
+
+            await apiRequest(
+              "logout",
+              {},
+              true
+            );
+
+          }
+
+        } catch (_) {
+
+          // Ignore logout API errors.
+        }
+
+        clearSession();
+
+        showLogin();
+
+        showToast(
+          "You have been logged out.",
+          "success"
+        );
+
+      }
+    );
+
+
+    /*
+     * ============================================================
+     * SEARCH
+     * ============================================================
+     */
+
+    searchButton.addEventListener(
+      "click",
+      searchCustomer
+    );
+
+
+    searchInput.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          searchCustomer();
+
+        }
+
+      }
+    );
+
+
+    async function searchCustomer() {
+
+      if (isSearching) {
+        return;
+      }
+
+      const searchTerm =
+        searchInput.value.trim();
+
+      if (!searchTerm) {
+
+        showSearchMessage(
+          "Please enter a Membership QR ID, customer name, or Facebook name.",
+          "error"
+        );
+
+        return;
+      }
+
+      if (!sessionToken) {
+
+        showLogin();
+
+        return;
+      }
+
+      isSearching = true;
+
+      setSearchLoading(true);
+
+      clearSearchMessage();
+
+      try {
+
+        const result =
+          await apiRequest(
+            "getcustomer",
+            {
+              searchTerm: searchTerm
+            },
+            true
+          );
+
+        if (!result.success) {
+
+          if (
+            isSessionExpiredResponse(result)
+          ) {
+
+            handleSessionExpired();
+
+            return;
+          }
+
+          throw new Error(
+            result.message ||
+            "Customer not found."
+          );
+
+        }
+
+        if (!result.customer) {
+
+          throw new Error(
+            "Customer not found."
+          );
+
+        }
+
+        setCustomer(
+          result.customer
+        );
+
+        clearSearchMessage();
+
+      } catch (error) {
+
+        clearCustomer();
+
+        showSearchMessage(
+          error.message ||
+          "Unable to search for customer.",
+          "error"
+        );
+
+      } finally {
+
+        isSearching = false;
+
+        setSearchLoading(false);
+
+      }
+
+    }
+
+
+    /*
+     * ============================================================
+     * QR SCANNER
+     * ============================================================
+     */
+
+    scanButton.addEventListener(
+      "click",
+      startScanner
+    );
+
+
+    closeScannerButton.addEventListener(
+      "click",
+      stopScanner
+    );
+
+
+    async function startScanner() {
+
+      if (scannerRunning) {
+        return;
+      }
+
+      scannerContainer.classList.remove(
+        "hidden"
+      );
+
+      try {
+
+        html5QrCode =
+          new Html5Qrcode("qr-reader");
+
+        scannerRunning = true;
+
+        await html5QrCode.start(
+          {
+            facingMode: "environment"
+          },
+          {
+            fps: 10,
+            qrbox: {
+              width: 250,
+              height: 250
+            }
+          },
+          async (decodedText) => {
+
+            const qrId =
+              normalizeQrId(decodedText);
+
+            searchInput.value =
+              qrId;
+
+            await stopScanner();
+
+            await searchCustomer();
+
+          },
+          () => {
+            // Ignore continuous scanner failures.
+          }
+        );
+
+      } catch (error) {
+
+        scannerRunning = false;
+
+        scannerContainer.classList.add(
+          "hidden"
+        );
+
+        showSearchMessage(
+          "Unable to access the camera. Please allow camera permission or enter the Membership QR ID manually.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    async function stopScanner() {
+
+      if (!html5QrCode) {
+
+        scannerContainer.classList.add(
+          "hidden"
+        );
+
+        scannerRunning = false;
+
+        return;
+
+      }
+
+      try {
+
+        if (scannerRunning) {
+
+          await html5QrCode.stop();
+
+        }
+
+      } catch (_) {
+
+        // Ignore scanner stop errors.
+
+      }
+
+      try {
+
+        html5QrCode.clear();
+
+      } catch (_) {
+
+        // Ignore clear errors.
+
+      }
+
+      html5QrCode = null;
+
+      scannerRunning = false;
+
+      scannerContainer.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    /*
+     * ============================================================
+     * TRANSACTION TYPE
+     * ============================================================
+     */
+
+    buyButton.addEventListener(
+      "click",
+      () => {
+
+        selectTransactionType(
+          "Buy"
+        );
+
+      }
+    );
+
+
+    sellButton.addEventListener(
+      "click",
+      () => {
+
+        selectTransactionType(
+          "Sell"
+        );
+
+      }
+    );
+
+
+    function selectTransactionType(
+      type
+    ) {
+
+      selectedTransactionType =
+        type;
+
+      buyButton.classList.toggle(
+        "active",
+        type === "Buy"
+      );
+
+      sellButton.classList.toggle(
+        "active",
+        type === "Sell"
+      );
+
+    }
+
+
+    /*
+     * ============================================================
+     * RECORD TRANSACTION
+     * ============================================================
+     */
+
+    transactionButton.addEventListener(
+      "click",
+      recordTransaction
+    );
+
+
+    amountInput.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          recordTransaction();
+
+        }
+
+      }
+    );
+
+
+    async function recordTransaction() {
+
+      if (isSubmittingTransaction) {
+        return;
+      }
+
+      if (!currentCustomer) {
+
+        showTransactionMessage(
+          "Please select a customer first.",
+          "error"
+        );
+
+        return;
+      }
+
+      if (!sessionToken) {
+
+        showLogin();
+
+        return;
+      }
+
+      const amount =
+        Number(
+          amountInput.value
+        );
+
+      if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+      ) {
+
+        showTransactionMessage(
+          "Please enter a valid transaction amount greater than zero.",
+          "error"
+        );
+
+        return;
+      }
+
+      const confirmed =
+        window.confirm(
+          `Record ${selectedTransactionType} transaction of ${formatCurrency(amount)} for ${currentCustomer.customerName}?`
+        );
+
+      if (!confirmed) {
+        return;
+      }
+
+      isSubmittingTransaction = true;
+
+      setTransactionLoading(true);
+
+      clearTransactionMessage();
+
+      try {
+
+        const result =
+          await apiRequest(
+            "recordtransaction",
+            {
+              customerId:
+                currentCustomer.customerId,
+
+              transactionType:
+                selectedTransactionType,
+
+              amount:
+                amount
+            },
+            true
+          );
+
+        if (!result.success) {
+
+          if (
+            isSessionExpiredResponse(result)
+          ) {
+
+            handleSessionExpired();
+
+            return;
+          }
+
+          throw new Error(
+            result.message ||
+            "Unable to record transaction."
+          );
+
+        }
+
+        if (result.customer) {
+
+          setCustomer(
+            result.customer
+          );
+
+        }
+
+        amountInput.value = "";
+
+        const pointsAdded =
+          result.transaction &&
+          result.transaction.pointsAdded !== undefined
+            ? result.transaction.pointsAdded
+            : 1;
+
+        showTransactionMessage(
+          `${selectedTransactionType} transaction recorded successfully. +${pointsAdded} point added.`,
+          "success"
+        );
+
+        showToast(
+          `${selectedTransactionType} recorded. +${pointsAdded} point.`,
+          "success"
+        );
+
+      } catch (error) {
+
+        showTransactionMessage(
+          error.message ||
+          "Unable to record transaction.",
+          "error"
+        );
+
+      } finally {
+
+        isSubmittingTransaction = false;
+
+        setTransactionLoading(false);
+
+      }
+
+    }
+
+
+    /*
+     * ============================================================
+     * API REQUEST
+     * ============================================================
+     */
+
+    async function apiRequest(
+      action,
+      data = {},
+      authenticated = true
+    ) {
+
+      if (
+        !API_URL ||
+        API_URL.includes(
+          "YOUR_REWARDS_CLOUDFLARE_WORKER_URL"
+        )
+      ) {
+
+        throw new Error(
+          "Rewards API URL has not been configured yet."
+        );
+
+      }
+
+      const payload = {
+        action: action,
+        ...data
+      };
+
+      if (
+        authenticated &&
+        sessionToken
+      ) {
+
+        payload.token =
+          sessionToken;
+
+      }
+
+      const response =
+        await fetch(
+          API_URL,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              "Accept":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(
+                payload
+              ),
+
+            cache:
+              "no-store"
+          }
+        );
+
+      let result;
+
+      try {
+
+        result =
+          await response.json();
+
+      } catch (_) {
+
+        throw new Error(
+          "The Rewards API returned an invalid response."
+        );
+
+      }
+
+      if (!response.ok) {
+
+        throw new Error(
+          result.message ||
+          `API request failed with HTTP ${response.status}.`
+        );
+
+      }
+
+      return result;
+
+    }
+
+
+    /*
+     * ============================================================
+     * CUSTOMER DISPLAY
+     * ============================================================
+     */
+
+    function setCustomer(
+      customer
+    ) {
+
+      currentCustomer =
+        customer;
+
+      const name =
+        customer.customerName ||
+        "-";
+
+      const facebookName =
+        customer.facebookName ||
+        "-";
+
+      const type =
+        customer.customerType ||
+        "-";
+
+      const id =
+        customer.customerId ||
+        "-";
+
+      customerName.textContent =
+        name;
+
+      customerType.textContent =
+        type;
+
+      customerId.textContent =
+        id;
+
+      infoCustomerId.textContent =
+        id;
+
+      infoFacebookName.textContent =
+        facebookName;
+
+      infoCustomerName.textContent =
+        name;
+
+      infoCustomerType.textContent =
+        type;
+
+      buyCount.textContent =
+        formatNumber(
+          customer.buyCount
+        );
+
+      sellCount.textContent =
+        formatNumber(
+          customer.sellCount
+        );
+
+      totalPoints.textContent =
+        formatNumber(
+          customer.totalPoints
+        );
+
+      overallTotalAmount.textContent =
+        formatCurrency(
+          customer.overallTotalAmount
+        );
+
+      customerSection.classList.remove(
+        "hidden"
+      );
+
+      emptyState.classList.add(
+        "hidden"
+      );
+
+      clearTransactionMessage();
+
+    }
+
+
+    function clearCustomer() {
+
+      currentCustomer =
+        null;
+
+      customerSection.classList.add(
+        "hidden"
+      );
+
+      emptyState.classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+    /*
+     * ============================================================
+     * APP / LOGIN VIEW
+     * ============================================================
+     */
+
+    function showApp() {
+
+      loginPage.classList.add(
+        "hidden"
+      );
+
+      appPage.classList.remove(
+        "hidden"
+      );
+
+      searchInput.focus();
+
+    }
+
+
+    function showLogin() {
+
+      loginPage.classList.remove(
+        "hidden"
+      );
+
+      appPage.classList.add(
+        "hidden"
+      );
+
+      clearCustomer();
+
+      searchInput.value = "";
+
+      amountInput.value = "";
+
+      clearSearchMessage();
+
+      clearTransactionMessage();
+
+      clearLoginError();
+
+      setTimeout(
+        () => {
+          pinInput.focus();
+        },
+        100
+      );
+
+    }
+
+
+    function clearSession() {
+
+      sessionToken =
+        "";
+
+      currentCustomer =
+        null;
+
+      sessionStorage.removeItem(
+        "rewardsSessionToken"
+      );
+
+    }
+
+
+    function handleSessionExpired() {
+
+      clearSession();
+
+      showLogin();
+
+      showLoginError(
+        "Your session has expired. Please login again."
+      );
+
+    }
+
+
+    function isSessionExpiredResponse(
+      result
+    ) {
+
+      const message =
+        String(
+          result &&
+          result.message
+            ? result.message
+            : ""
+        ).toLowerCase();
+
+      return (
+        message.includes(
+          "session"
+        ) &&
+        (
+          message.includes(
+            "expired"
+          ) ||
+          message.includes(
+            "invalid"
+          ) ||
+          message.includes(
+            "login"
+          )
+        )
+      );
+
+    }
+
+
+    /*
+     * ============================================================
+     * LOADING STATES
+     * ============================================================
+     */
+
+    function setLoginLoading(
+      loading
+    ) {
+
+      loginButton.disabled =
+        loading;
+
+      if (loading) {
+
+        loginButton.innerHTML =
+          `
+            <span class="loading">
+              <span class="spinner"></span>
+              Logging in...
+            </span>
+          `;
+
+      } else {
+
+        loginButton.textContent =
+          "Login";
+
+      }
+
+    }
+
+
+    function setSearchLoading(
+      loading
+    ) {
+
+      searchButton.disabled =
+        loading;
+
+      if (loading) {
+
+        searchButton.innerHTML =
+          `
+            <span class="loading">
+              <span class="spinner"></span>
+              Search
+            </span>
+          `;
+
+      } else {
+
+        searchButton.textContent =
+          "Search";
+
+      }
+
+    }
+
+
+    function setTransactionLoading(
+      loading
+    ) {
+
+      transactionButton.disabled =
+        loading;
+
+      buyButton.disabled =
+        loading;
+
+      sellButton.disabled =
+        loading;
+
+      amountInput.disabled =
+        loading;
+
+      if (loading) {
+
+        transactionButton.innerHTML =
+          `
+            <span class="loading">
+              <span class="spinner"></span>
+              Saving...
+            </span>
+          `;
+
+      } else {
+
+        transactionButton.textContent =
+          "Confirm Transaction";
+
+      }
+
+    }
+
+
+    /*
+     * ============================================================
+     * MESSAGES
+     * ============================================================
+     */
+
+    function showLoginError(
+      message
+    ) {
+
+      loginError.textContent =
+        message;
+
+      loginError.classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+    function clearLoginError() {
+
+      loginError.textContent =
+        "";
+
+      loginError.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    function showSearchMessage(
+      message,
+      type = "info"
+    ) {
+
+      searchMessage.innerHTML =
+        "";
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+      div.className =
+        type === "error"
+          ? "error-message"
+          : type === "success"
+            ? "success-message"
+            : "info-message";
+
+      div.textContent =
+        message;
+
+      searchMessage.appendChild(
+        div
+      );
+
+    }
+
+
+    function clearSearchMessage() {
+
+      searchMessage.innerHTML =
+        "";
+
+    }
+
+
+    function showTransactionMessage(
+      message,
+      type = "info"
+    ) {
+
+      transactionMessage.innerHTML =
+        "";
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+      div.className =
+        type === "error"
+          ? "error-message"
+          : type === "success"
+            ? "success-message"
+            : "info-message";
+
+      div.textContent =
+        message;
+
+      transactionMessage.appendChild(
+        div
+      );
+
+    }
+
+
+    function clearTransactionMessage() {
+
+      transactionMessage.innerHTML =
+        "";
+
+    }
+
+
+    /*
+     * ============================================================
+     * TOAST
+     * ============================================================
+     */
+
+    function showToast(
+      message,
+      type = ""
+    ) {
+
+      const toast =
+        document.createElement(
+          "div"
+        );
+
+      toast.className =
+        "toast";
+
+      if (type) {
+
+        toast.classList.add(
+          type
+        );
+
+      }
+
+      toast.textContent =
+        message;
+
+      toastContainer.appendChild(
+        toast
+      );
+
+      setTimeout(
+        () => {
+
+          toast.style.opacity =
+            "0";
+
+          toast.style.transform =
+            "translateY(-5px)";
+
+          setTimeout(
+            () => {
+              toast.remove();
+            },
+            200
+          );
+
+        },
+        3000
+      );
+
+    }
+
+
+    /*
+     * ============================================================
+     * FORMATTING
+     * ============================================================
+     */
+
+    function formatNumber(
+      value
+    ) {
+
+      const number =
+        Number(value);
+
+      if (
+        !Number.isFinite(number)
+      ) {
+
+        return "0";
+
+      }
+
+      return number.toLocaleString(
+        "en-US",
+        {
+          maximumFractionDigits: 0
+        }
+      );
+
+    }
+
+
+    function formatCurrency(
+      value
+    ) {
+
+      const number =
+        Number(value);
+
+      if (
+        !Number.isFinite(number)
+      ) {
+
+        return "₱0.00";
+
+      }
+
+      return number.toLocaleString(
+        "en-PH",
+        {
+          style: "currency",
+          currency: "PHP",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }
+      );
+
+    }
+
+
+    /*
+     * ============================================================
+     * QR ID NORMALIZATION
+     * ============================================================
+     */
+
+    function normalizeQrId(
+      value
+    ) {
+
+      let text =
+        String(
+          value || ""
+        )
+        .trim()
+        .toUpperCase();
+
+      /*
+       * If the QR contains a URL, try to extract
+       * the PFGJI QR ID.
+       */
+
+      const match =
+        text.match(
+          /PFGJI-[A-Z2-9]{4}-[A-Z2-9]{4}/
+        );
+
+      if (match) {
+
+        return match[0];
+
+      }
+
+      return text;
+
+    }
+
+
+    /*
+     * ============================================================
+     * PAGE SAFETY
+     * ============================================================
+     */
+
+    window.addEventListener(
+      "beforeunload",
+      () => {
+
+        if (scannerRunning) {
+
+          try {
+
+            html5QrCode.stop();
+
+          } catch (_) {}
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
