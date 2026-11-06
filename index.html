@@ -1881,17 +1881,13 @@
     ) {
 
       if (
-        !API_URL ||
-        API_URL.includes(
-          "YOUR_REWARDS_CLOUDFLARE_WORKER_URL"
-        )
-      ) {
-
-        throw new Error(
-          "Rewards API URL has not been configured yet."
-        );
-
-      }
+  !API_URL ||
+  API_URL.includes("YOUR_REWARDS_CLOUDFLARE_WORKER_URL")
+) {
+  throw new Error(
+    "Rewards API URL has not been configured yet."
+  );
+}
 
       const payload = {
         action: action,
