@@ -858,22 +858,6 @@ button {
           -
          </div>
         </div>
-        <div class="info-box">
-         <div class="info-label">
-          Customer Name
-         </div>
-         <div class="info-value" id="infoCustomerName">
-          -
-         </div>
-        </div>
-        <div class="info-box">
-         <div class="info-label">
-          Customer Type
-         </div>
-         <div class="info-value" id="infoCustomerType">
-          -
-         </div>
-        </div>
        </div>
        <div class="stats-grid">
         <div class="stat-card">
@@ -1348,8 +1332,8 @@ function clearHomeCustomer(clearInput=true){
   $("customerId").textContent="-";
   $("infoTicketNo").textContent="-";
   $("infoFacebookName").textContent="-";
-  $("infoCustomerName").textContent="-";
-  $("infoCustomerType").textContent="-";
+  
+  
   $("homeBoughtAmount").textContent="₱0.00";
   $("homeSoldAmount").textContent="₱0.00";
   $("buyCount").textContent="0";
@@ -1359,7 +1343,7 @@ function clearHomeCustomer(clearInput=true){
   setMsg($("transactionMessage"),"");
   if(clearInput)$("searchInput").value="";
 }
-function setCustomer(c){currentCustomer=c;$("customerName").textContent=c.customerName||"-";$("customerType").textContent=c.customerType||"-";$("customerId").textContent=c.customerId||"-";$("infoTicketNo").textContent=c.ticketNo||"-";$("infoFacebookName").textContent=c.facebookName||"-";$("infoCustomerName").textContent=c.customerName||"-";$("infoCustomerType").textContent=c.customerType||"-";$("buyCount").textContent=num(c.buyCount);$("sellCount").textContent=num(c.sellCount);$("totalPoints").textContent=num(c.totalPoints);loadHomeTransactionSummary(c.customerId);$("customerSection").classList.remove("hidden");$("emptyState").classList.add("hidden")}
+function setCustomer(c){currentCustomer=c;$("customerName").textContent=c.customerName||"-";$("customerType").textContent=c.customerType||"-";$("customerId").textContent=c.customerId||"-";$("infoTicketNo").textContent=c.ticketNo||"-";$("infoFacebookName").textContent=c.facebookName||"-";$("buyCount").textContent=num(c.buyCount);$("sellCount").textContent=num(c.sellCount);$("totalPoints").textContent=num(c.totalPoints);loadHomeTransactionSummary(c.customerId);$("customerSection").classList.remove("hidden");$("emptyState").classList.add("hidden")}
 async function loadHomeTransactionSummary(id){try{const r=await api("listtransactions",{customerId:id});if(r.success){const s=r.summary||{};$("homeBoughtAmount").textContent=money(s.totalAmountBought);$("homeSoldAmount").textContent=money(s.totalAmountSold);$("buyCount").textContent=num(s.buyPoints);$("sellCount").textContent=num(s.sellPoints);$("totalPoints").textContent=num(s.totalPoints)}}catch(_){} }
 $("searchButton").onclick=searchCustomer;
 $("clearSearchButton").onclick=()=>{clearHomeCustomer(true);setMsg($("searchMessage"),"");};
