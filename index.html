@@ -767,19 +767,19 @@ button {
       <div class="topbar-title" id="topbarTitle">
        Home
       </div>
-      <div class="topbar-subtitle" id="topbarSubtitle">
+      <!-- <div class="topbar-subtitle" id="topbarSubtitle">
        Search customers and record rewards transactions
-      </div>
+      </div> -->
      </div>
     </header>
     <main class="page">
      <section class="page-section" id="pageHome">
-      <h1 class="page-title">
+      <!-- <h1 class="page-title">
        Home
       </h1>
       <p class="page-subtitle">
        Search customers and record rewards transactions.
-      </p>
+      </p> -->
       <section class="card">
        <h2 class="card-title">
         Find Customer
@@ -1310,7 +1310,6 @@ async function searchCustomer(){
   const btn=$("searchButton");
   btn.disabled=true;
   btn.textContent="Searching…";
-  // setMsg($("searchMessage"),"Searching…","info");
   try{
     const r=await api("getcustomer",{searchTerm:q});
     if(!r.success)throw new Error(r.message);
