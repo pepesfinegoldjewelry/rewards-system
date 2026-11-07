@@ -1310,7 +1310,7 @@ async function searchCustomer(){
   const btn=$("searchButton");
   btn.disabled=true;
   btn.textContent="Searching…";
-  setMsg($("searchMessage"),"Searching…","info");
+  // setMsg($("searchMessage"),"Searching…","info");
   try{
     const r=await api("getcustomer",{searchTerm:q});
     if(!r.success)throw new Error(r.message);
