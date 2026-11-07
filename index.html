@@ -1,82 +1,1299 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PFGJI Rewards System</title>
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<style>
-*{box-sizing:border-box}html,body{margin:0;padding:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#f5f6f8;color:#1f2937}body{min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-:root{--red:#c81018;--dark:#151515;--muted:#697386;--border:#e1e4e8;--bg:#f5f6f8;--card:#fff}
-.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg)}.login-card{width:100%;max-width:420px;background:#fff;border-radius:20px;padding:30px;box-shadow:0 12px 40px rgba(0,0,0,.08)}.logo-area{text-align:center;margin-bottom:24px}.login-logo{width:86px;height:86px;object-fit:contain;margin:auto}.logo-area h1{margin:8px 0 4px;font-size:25px}.logo-area p{margin:0;color:var(--muted)}.form-group{margin-bottom:16px}.form-group label{display:block;margin-bottom:7px;font-size:14px;font-weight:700}.form-control{width:100%;min-height:48px;padding:12px 14px;border:1px solid #d7dbe0;border-radius:12px;background:#fff;outline:none}.form-control:focus{border-color:#111;box-shadow:0 0 0 3px rgba(0,0,0,.06)}.primary-btn,.search-btn,.danger-btn{border:0;border-radius:12px;min-height:48px;font-weight:700}.primary-btn{width:100%;background:#111;color:#fff}.error-message,.success-message,.info-message{padding:12px 14px;border-radius:11px;margin-bottom:14px}.error-message{background:#fff1f1;color:#a40000;border:1px solid #ffcaca}.success-message{background:#ecfbf2;color:#08783f;border:1px solid #bfe9ce}.info-message{background:#eef5ff;color:#1758a8;border:1px solid #c9ddfb}
-.app{min-height:100vh}.sidebar{position:fixed;left:0;top:0;bottom:0;width:250px;background:var(--dark);color:#fff;z-index:500;display:flex;flex-direction:column;transition:transform .25s ease}.sidebar-brand{height:100px;border-bottom:1px solid #303030;display:flex;align-items:center;justify-content:center}.sidebar-logo{width:72px;height:72px;object-fit:contain}.sidebar-nav{padding:24px 14px;display:flex;flex-direction:column;gap:8px}.nav-btn{width:100%;border:0;background:transparent;color:#ddd;text-align:left;padding:14px 16px;border-radius:12px;font-weight:700;display:flex;align-items:center;gap:13px}.nav-btn:hover,.nav-btn.active{background:#2c2c2c;color:#fff}.nav-icon{width:24px;text-align:center;font-size:20px}.sidebar-bottom{margin-top:auto;border-top:1px solid #303030;padding:14px}.logout-sidebar{width:100%;border:1px solid #555;background:transparent;color:#fff;border-radius:10px;padding:11px;font-weight:700}.main-shell{margin-left:250px;min-height:100vh}.topbar{height:96px;background:#fff;border-bottom:1px solid #ddd;display:flex;align-items:center;gap:18px;padding:16px 28px;position:sticky;top:0;z-index:300}.menu-btn{width:50px;height:50px;border:0;border-radius:14px;background:#f0f1f2;color:#0785ff;font-size:25px;display:none}.topbar-title{font-size:28px;font-weight:800;color:#171717}.topbar-subtitle{color:var(--muted);margin-top:3px;font-size:16px}.page{max-width:1180px;margin:auto;padding:28px}.page-title{font-size:30px;margin:0 0 6px;color:#171717}.page-subtitle{margin:0 0 20px;color:var(--muted)}.card{background:var(--card);border:1px solid #e0e2e5;border-radius:22px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.04)}.card-title{margin:0 0 6px;font-size:24px;color:#171717}.card-description{margin:0 0 18px;color:var(--muted)}.search-row{display:grid;grid-template-columns:1fr auto auto;gap:10px}.search-btn{background:var(--red);color:#fff;padding:0 24px}.scan-btn,.secondary-btn{min-height:48px;border:1px solid #d7dbe0;background:#fff;border-radius:12px;padding:0 18px;font-weight:700}.scanner-container{margin-top:16px;border:1px solid #ddd;border-radius:16px;padding:14px}.scanner-guidance{padding:10px;text-align:center;color:var(--muted);font-size:13px}.scanner-status{text-align:center;font-weight:700;margin:8px}.scanner-close{width:100%;min-height:44px;border:0;border-radius:10px;background:#111;color:#fff}.customer-card{margin-top:20px}.customer-header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.customer-name{font-size:30px;font-weight:800;color:#171717}.customer-type{color:var(--muted);margin-top:5px}.customer-id{text-align:right;font-weight:700}.customer-info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px}.info-box{border:1px solid var(--border);border-radius:15px;padding:15px}.info-label{font-size:12px;font-weight:800;color:#687183;text-transform:uppercase;margin-bottom:6px}.info-value{font-size:17px;font-weight:700;color:#171717;word-break:break-word}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.stat-card{border:1px solid var(--border);border-radius:15px;padding:16px}.stat-label{font-size:12px;color:#687183;font-weight:800;text-transform:uppercase}.stat-value{font-size:24px;font-weight:800;margin-top:7px;color:#171717}.transaction-section{margin-top:22px;padding-top:22px;border-top:1px solid #eee}.transaction-buttons{display:flex;gap:10px;margin:12px 0}.transaction-btn{flex:1;min-height:46px;border:1px solid #ddd;border-radius:10px;background:#fff;font-weight:800}.transaction-btn.active{background:#111;color:#fff}.amount-row{display:grid;grid-template-columns:1fr auto;gap:10px}.transaction-confirm-btn{min-height:48px;border:0;border-radius:10px;background:var(--red);color:#fff;font-weight:800;padding:0 22px}.transaction-note{font-size:13px;color:var(--muted)}
-.table-wrap{overflow:auto;border:1px solid #e4e5e7;border-radius:14px}.data-table{width:100%;border-collapse:collapse;min-width:720px}.data-table th,.data-table td{padding:13px 14px;border-bottom:1px solid #eee;text-align:left;white-space:nowrap}.data-table th{font-size:12px;text-transform:uppercase;color:#687183;background:#fafafa}.data-table tr:last-child td{border-bottom:0}.action-btn{border:1px solid #d7dbe0;background:#fff;border-radius:9px;padding:8px 12px;font-weight:700}.filters{display:grid;grid-template-columns:1.5fr 1fr auto;gap:10px;margin-bottom:16px}.pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px}.pagination-buttons{display:flex;gap:8px}.empty-box{padding:35px;text-align:center;color:var(--muted)}.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:center;justify-content:center;padding:18px}.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:24px}.modal h2{margin:0 0 18px}.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}.modal-actions button{min-height:44px;padding:0 18px;border-radius:10px;border:1px solid #ddd;font-weight:700}.save-btn{background:#111;color:#fff;border-color:#111!important}.danger-btn{background:#b60000;color:#fff;padding:0 18px}.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.edit-grid .full{grid-column:1/-1}.summary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}.summary-box{border:1px solid var(--border);border-radius:13px;padding:13px}.summary-box small{display:block;color:var(--muted);font-weight:700}.summary-box strong{display:block;font-size:20px;margin-top:5px}.report-controls{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;margin-bottom:18px}.report-highlights{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.highlight{border-radius:15px;padding:16px;background:#f8f8f8;border:1px solid var(--border)}.highlight small{color:var(--muted);font-weight:700}.highlight strong{display:block;margin-top:6px;font-size:18px}.overlay{display:none}
-@media(max-width:900px){.sidebar{transform:translateX(-100%);box-shadow:10px 0 30px rgba(0,0,0,.2)}.sidebar.open{transform:translateX(0)}.overlay.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:450}.main-shell{margin-left:0}.menu-btn{display:block}.topbar{height:auto;min-height:88px;padding:14px 16px}.topbar-title{font-size:25px}.topbar-subtitle{font-size:14px}.page{padding:18px 14px}.stats-grid{grid-template-columns:repeat(2,1fr)}.report-highlights{grid-template-columns:repeat(2,1fr)}.summary-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.login-card{padding:24px 20px}.report-controls{grid-template-columns:minmax(0,1fr)}#reportMonth{width:100%;min-width:0;max-width:100%;height:46px;font-size:15px;padding:10px 12px}.search-row{grid-template-columns:1fr}.search-btn,.scan-btn,.search-row .secondary-btn{width:100%}.customer-header{flex-direction:column}.customer-id{text-align:left}.customer-info-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr 1fr}.amount-row{grid-template-columns:1fr}.transaction-confirm-btn{width:100%}.filters,.report-controls{grid-template-columns:1fr}.report-highlights{grid-template-columns:1fr}.edit-grid{grid-template-columns:1fr}.edit-grid .full{grid-column:auto}.pagination{flex-direction:column;align-items:stretch}.pagination-buttons button{flex:1}.page-title{font-size:26px}.card{padding:18px;border-radius:18px}}
-</style>
-</head>
-<body>
-<section id="loginPage" class="login-page">
-  <div class="login-card">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+  <title>
+   PFGJI Rewards System
+  </title>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js">
+  </script>
+  <style>
+   * {
+    box-sizing:border-box;
+}
+html,body {
+    margin:0;
+    padding:0;
+    min-height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f6f8;
+    color:#1f2937;
+}
+body {
+    min-height:100vh;
+}
+button,input,select {
+    font:inherit;
+}
+button {
+    cursor:pointer;
+}
+.hidden {
+    display:none!important;
+}
+:root {
+    --red:#c81018;
+    --dark:#151515;
+    --muted:#697386;
+    --border:#e1e4e8;
+    --bg:#f5f6f8;
+    --card:#fff;
+}
+.login-page {
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:var(--bg);
+}
+.login-card {
+    width:100%;
+    max-width:420px;
+    background:#fff;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 12px 40px rgba(0,0,0,.08);
+}
+.logo-area {
+    text-align:center;
+    margin-bottom:24px;
+}
+.login-logo {
+    width:86px;
+    height:86px;
+    object-fit:contain;
+    margin:auto;
+}
+.logo-area h1 {
+    margin:8px 0 4px;
+    font-size:25px;
+}
+.logo-area p {
+    margin:0;
+    color:var(--muted);
+}
+.form-group {
+    margin-bottom:16px;
+}
+.form-group label {
+    display:block;
+    margin-bottom:7px;
+    font-size:14px;
+    font-weight:700;
+}
+.form-control {
+    width:100%;
+    min-height:48px;
+    padding:12px 14px;
+    border:1px solid #d7dbe0;
+    border-radius:12px;
+    background:#fff;
+    outline:none;
+}
+.form-control:focus {
+    border-color:#111;
+    box-shadow:0 0 0 3px rgba(0,0,0,.06);
+}
+.primary-btn,.search-btn,.danger-btn {
+    border:0;
+    border-radius:12px;
+    min-height:48px;
+    font-weight:700;
+}
+.primary-btn {
+    width:100%;
+    background:#111;
+    color:#fff;
+}
+.error-message,.success-message,.info-message {
+    padding:12px 14px;
+    border-radius:11px;
+    margin-bottom:14px;
+}
+.error-message {
+    background:#fff1f1;
+    color:#a40000;
+    border:1px solid #ffcaca;
+}
+.success-message {
+    background:#ecfbf2;
+    color:#08783f;
+    border:1px solid #bfe9ce;
+}
+.info-message {
+    background:#eef5ff;
+    color:#1758a8;
+    border:1px solid #c9ddfb;
+}
+.app {
+    min-height:100vh;
+}
+.sidebar {
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:250px;
+    background:var(--dark);
+    color:#fff;
+    z-index:500;
+    display:flex;
+    flex-direction:column;
+    transition:transform .25s ease;
+}
+.sidebar-brand {
+    height:100px;
+    border-bottom:1px solid #303030;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.sidebar-logo {
+    width:72px;
+    height:72px;
+    object-fit:contain;
+}
+.sidebar-nav {
+    padding:24px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+.nav-btn {
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#ddd;
+    text-align:left;
+    padding:14px 16px;
+    border-radius:12px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+.nav-btn:hover,.nav-btn.active {
+    background:#2c2c2c;
+    color:#fff;
+}
+.nav-icon {
+    width:24px;
+    text-align:center;
+    font-size:20px;
+}
+.sidebar-bottom {
+    margin-top:auto;
+    border-top:1px solid #303030;
+    padding:14px;
+}
+.logout-sidebar {
+    width:100%;
+    border:1px solid #555;
+    background:transparent;
+    color:#fff;
+    border-radius:10px;
+    padding:11px;
+    font-weight:700;
+}
+.main-shell {
+    margin-left:250px;
+    min-height:100vh;
+}
+.topbar {
+    height:96px;
+    background:#fff;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:16px 28px;
+    position:sticky;
+    top:0;
+    z-index:300;
+}
+.menu-btn {
+    width:50px;
+    height:50px;
+    border:0;
+    border-radius:14px;
+    background:#f0f1f2;
+    color:#0785ff;
+    font-size:25px;
+    display:none;
+}
+.topbar-title {
+    font-size:28px;
+    font-weight:800;
+    color:#171717;
+}
+.topbar-subtitle {
+    color:var(--muted);
+    margin-top:3px;
+    font-size:16px;
+}
+.page {
+    max-width:1180px;
+    margin:auto;
+    padding:28px;
+}
+.page-title {
+    font-size:30px;
+    margin:0 0 6px;
+    color:#171717;
+}
+.page-subtitle {
+    margin:0 0 20px;
+    color:var(--muted);
+}
+.card {
+    background:var(--card);
+    border:1px solid #e0e2e5;
+    border-radius:22px;
+    padding:24px;
+    margin-bottom:20px;
+    box-shadow:0 4px 16px rgba(0,0,0,.04);
+}
+.card-title {
+    margin:0 0 6px;
+    font-size:24px;
+    color:#171717;
+}
+.card-description {
+    margin:0 0 18px;
+    color:var(--muted);
+}
+.search-row {
+    display:grid;
+    grid-template-columns:1fr auto auto;
+    gap:10px;
+}
+.search-btn {
+    background:var(--red);
+    color:#fff;
+    padding:0 24px;
+}
+.scan-btn,.secondary-btn {
+    min-height:48px;
+    border:1px solid #d7dbe0;
+    background:#fff;
+    border-radius:12px;
+    padding:0 18px;
+    font-weight:700;
+}
+.scanner-container {
+    margin-top:16px;
+    border:1px solid #ddd;
+    border-radius:16px;
+    padding:14px;
+}
+.scanner-guidance {
+    padding:10px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+}
+.scanner-status {
+    text-align:center;
+    font-weight:700;
+    margin:8px;
+}
+.scanner-close {
+    width:100%;
+    min-height:44px;
+    border:0;
+    border-radius:10px;
+    background:#111;
+    color:#fff;
+}
+.customer-card {
+    margin-top:20px;
+}
+.customer-header {
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    align-items:flex-start;
+}
+.customer-name {
+    font-size:30px;
+    font-weight:800;
+    color:#171717;
+}
+.customer-type {
+    color:var(--muted);
+    margin-top:5px;
+}
+.customer-id {
+    text-align:right;
+    font-weight:700;
+}
+.customer-info-grid {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:22px;
+}
+.info-box {
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:15px;
+}
+.info-label {
+    font-size:12px;
+    font-weight:800;
+    color:#687183;
+    text-transform:uppercase;
+    margin-bottom:6px;
+}
+.info-value {
+    font-size:17px;
+    font-weight:700;
+    color:#171717;
+    word-break:break-word;
+}
+.stats-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+.stat-card {
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:16px;
+}
+.stat-label {
+    font-size:12px;
+    color:#687183;
+    font-weight:800;
+    text-transform:uppercase;
+}
+.stat-value {
+    font-size:24px;
+    font-weight:800;
+    margin-top:7px;
+    color:#171717;
+}
+.transaction-section {
+    margin-top:22px;
+    padding-top:22px;
+    border-top:1px solid #eee;
+}
+.transaction-buttons {
+    display:flex;
+    gap:10px;
+    margin:12px 0;
+}
+.transaction-btn {
+    flex:1;
+    min-height:46px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    background:#fff;
+    font-weight:800;
+}
+.transaction-btn.active {
+    background:#111;
+    color:#fff;
+}
+.amount-row {
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px;
+}
+.transaction-confirm-btn {
+    min-height:48px;
+    border:0;
+    border-radius:10px;
+    background:var(--red);
+    color:#fff;
+    font-weight:800;
+    padding:0 22px;
+}
+.transaction-note {
+    font-size:13px;
+    color:var(--muted);
+}
+.table-wrap {
+    overflow:auto;
+    border:1px solid #e4e5e7;
+    border-radius:14px;
+}
+.data-table {
+    width:100%;
+    border-collapse:collapse;
+    min-width:720px;
+}
+.data-table th,.data-table td {
+    padding:13px 14px;
+    border-bottom:1px solid #eee;
+    text-align:left;
+    white-space:nowrap;
+}
+.data-table th {
+    font-size:12px;
+    text-transform:uppercase;
+    color:#687183;
+    background:#fafafa;
+}
+.data-table tr:last-child td {
+    border-bottom:0;
+}
+.action-btn {
+    border:1px solid #d7dbe0;
+    background:#fff;
+    border-radius:9px;
+    padding:8px 12px;
+    font-weight:700;
+}
+.filters {
+    display:grid;
+    grid-template-columns:1.5fr 1fr auto;
+    gap:10px;
+    margin-bottom:16px;
+}
+.pagination {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:15px;
+}
+.pagination-buttons {
+    display:flex;
+    gap:8px;
+}
+.empty-box {
+    padding:35px;
+    text-align:center;
+    color:var(--muted);
+}
+.modal-backdrop {
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
+.modal {
+    width:min(720px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#fff;
+    border-radius:20px;
+    padding:24px;
+}
+.modal h2 {
+    margin:0 0 18px;
+}
+.modal-actions {
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+    margin-top:20px;
+}
+.modal-actions button {
+    min-height:44px;
+    padding:0 18px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    font-weight:700;
+}
+.save-btn {
+    background:#111;
+    color:#fff;
+    border-color:#111!important;
+}
+.danger-btn {
+    background:#b60000;
+    color:#fff;
+    padding:0 18px;
+}
+.edit-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
+}
+.edit-grid .full {
+    grid-column:1/-1;
+}
+.summary-grid {
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-bottom:18px;
+}
+.summary-box {
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:13px;
+}
+.summary-box small {
+    display:block;
+    color:var(--muted);
+    font-weight:700;
+}
+.summary-box strong {
+    display:block;
+    font-size:20px;
+    margin-top:5px;
+}
+.report-controls {
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr auto;
+    gap:10px;
+    margin-bottom:18px;
+}
+.report-highlights {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:18px;
+}
+.highlight {
+    border-radius:15px;
+    padding:16px;
+    background:#f8f8f8;
+    border:1px solid var(--border);
+}
+.highlight small {
+    color:var(--muted);
+    font-weight:700;
+}
+.highlight strong {
+    display:block;
+    margin-top:6px;
+    font-size:18px;
+}
+.overlay {
+    display:none;
+}
+@media(max-width:900px) {
+    .sidebar{transform:translateX(-100%);
+    box-shadow:10px 0 30px rgba(0,0,0,.2);
+}
+.sidebar.open {
+    transform:translateX(0);
+}
+.overlay.open {
+    display:block;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:450;
+}
+.main-shell {
+    margin-left:0;
+}
+.menu-btn {
+    display:block;
+}
+.topbar {
+    height:auto;
+    min-height:88px;
+    padding:14px 16px;
+}
+.topbar-title {
+    font-size:25px;
+}
+.topbar-subtitle {
+    font-size:14px;
+}
+.page {
+    padding:18px 14px;
+}
+.stats-grid {
+    grid-template-columns:repeat(2,1fr);
+}
+.report-highlights {
+    grid-template-columns:repeat(2,1fr);
+}
+.summary-grid {
+    grid-template-columns:repeat(2,1fr);
+}
+}
+@media(max-width:600px) {
+    .login-card{padding:24px 20px;
+}
+.report-controls {
+    grid-template-columns:minmax(0,1fr);
+}
+#reportMonth {
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    height:46px;
+    font-size:15px;
+    padding:10px 12px;
+}
+.search-row {
+    grid-template-columns:1fr;
+}
+.search-btn,.scan-btn,.search-row .secondary-btn {
+    width:100%;
+}
+.customer-header {
+    flex-direction:column;
+}
+.customer-id {
+    text-align:left;
+}
+.customer-info-grid {
+    grid-template-columns:1fr;
+}
+.stats-grid {
+    grid-template-columns:1fr 1fr;
+}
+.amount-row {
+    grid-template-columns:1fr;
+}
+.transaction-confirm-btn {
+    width:100%;
+}
+.filters,.report-controls {
+    grid-template-columns:1fr;
+}
+.report-highlights {
+    grid-template-columns:1fr;
+}
+.edit-grid {
+    grid-template-columns:1fr;
+}
+.edit-grid .full {
+    grid-column:auto;
+}
+.pagination {
+    flex-direction:column;
+    align-items:stretch;
+}
+.pagination-buttons button {
+    flex:1;
+}
+.page-title {
+    font-size:26px;
+}
+.card {
+    padding:18px;
+    border-radius:18px;
+}
+}
+  </style>
+ </head>
+ <body>
+  <section class="login-page" id="loginPage">
+   <div class="login-card">
     <div class="logo-area">
-      <img src="pfgji-logo.png" class="login-logo" alt="PFGJI logo">
-      <h1>Rewards System</h1><p>Staff Login</p>
+     <img alt="PFGJI logo" class="login-logo" src="pfgji-logo.png"/>
+     <h1>
+      Rewards System
+     </h1>
+     <p>
+      Staff Login
+     </p>
     </div>
-    <div id="loginError" class="error-message hidden"></div>
-    <form id="loginForm"><div class="form-group"><label for="pinInput">Staff PIN</label><input id="pinInput" class="form-control" type="password" inputmode="numeric" autocomplete="off" required></div><button id="loginButton" class="primary-btn">Login</button></form>
-  </div>
-</section>
-
-<section id="appPage" class="app hidden">
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-brand"><img src="pfgji-logo.png" class="sidebar-logo" alt="PFGJI logo"></div>
+    <div class="error-message hidden" id="loginError">
+    </div>
+    <form id="loginForm">
+     <div class="form-group">
+      <label for="pinInput">
+       Staff PIN
+      </label>
+      <input autocomplete="off" class="form-control" id="pinInput" inputmode="numeric" required="" type="password"/>
+     </div>
+     <button class="primary-btn" id="loginButton">
+      Login
+     </button>
+    </form>
+   </div>
+  </section>
+  <section class="app hidden" id="appPage">
+   <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+     <img alt="PFGJI logo" class="sidebar-logo" src="pfgji-logo.png"/>
+    </div>
     <nav class="sidebar-nav">
-      <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span><span>Home</span></button>
-      <button class="nav-btn" data-page="customers"><span class="nav-icon">👥</span><span>Customers</span></button>
-      <button class="nav-btn" data-page="history"><span class="nav-icon">▤</span><span>Transaction History</span></button>
-      <button class="nav-btn" data-page="reports"><span class="nav-icon">▥</span><span>Reports</span></button>
+     <button class="nav-btn active" data-page="home">
+      <span class="nav-icon">
+       ⌂
+      </span>
+      <span>
+       Home
+      </span>
+     </button>
+     <button class="nav-btn" data-page="customers">
+      <span class="nav-icon">
+       👥
+      </span>
+      <span>
+       Customers
+      </span>
+     </button>
+     <button class="nav-btn" data-page="history">
+      <span class="nav-icon">
+       ▤
+      </span>
+      <span>
+       Transaction History
+      </span>
+     </button>
+     <button class="nav-btn" data-page="reports">
+      <span class="nav-icon">
+       ▥
+      </span>
+      <span>
+       Reports
+      </span>
+     </button>
     </nav>
-    <div class="sidebar-bottom"><button id="logoutButton" class="logout-sidebar">Logout</button></div>
-  </aside>
-  <div id="overlay" class="overlay"></div>
-  <div class="main-shell">
-    <header class="topbar"><button id="menuButton" class="menu-btn" aria-label="Open menu">☰</button><div><div id="topbarTitle" class="topbar-title">Home</div><div id="topbarSubtitle" class="topbar-subtitle">Search customers and record rewards transactions</div></div></header>
-
+    <div class="sidebar-bottom">
+     <button class="logout-sidebar" id="logoutButton">
+      Logout
+     </button>
+    </div>
+   </aside>
+   <div class="overlay" id="overlay">
+   </div>
+   <div class="main-shell">
+    <header class="topbar">
+     <button aria-label="Open menu" class="menu-btn" id="menuButton">
+      ☰
+     </button>
+     <div>
+      <div class="topbar-title" id="topbarTitle">
+       Home
+      </div>
+      <div class="topbar-subtitle" id="topbarSubtitle">
+       Search customers and record rewards transactions
+      </div>
+     </div>
+    </header>
     <main class="page">
-      <section id="pageHome" class="page-section">
-        <h1 class="page-title">Home</h1><p class="page-subtitle">Search customers and record rewards transactions.</p>
-        <section class="card"><h2 class="card-title">Find Customer</h2><p class="card-description">Search using Membership QR ID, Ticket Number, customer name, or Facebook name.</p><div id="searchMessage"></div><div class="search-row"><input id="searchInput" class="form-control" autocomplete="off" placeholder="Enter QR ID, Ticket No., or customer name"><button id="searchButton" class="search-btn">Search</button><button id="clearSearchButton" class="secondary-btn">Clear</button><button id="scanButton" class="scan-btn">Scan QR</button></div><div id="scannerContainer" class="scanner-container hidden"><div id="qr-reader"></div><div class="scanner-guidance">Point the rear camera at the 1×1 inch membership QR. Move closer slowly until the QR is clear and centered.</div><div id="scannerStatus" class="scanner-status"></div><button id="closeScannerButton" class="scanner-close">Close Scanner</button></div></section>
-        <section id="customerSection" class="card hidden"><div class="customer-header"><div><div id="customerName" class="customer-name">Customer</div><div id="customerType" class="customer-type">Regular</div></div><div class="customer-id"><div>Membership ID</div><strong id="customerId">-</strong><div style="margin-top:8px">Ticket No.</div><strong id="infoTicketNo">-</strong></div></div><div class="customer-info-grid"><div class="info-box"><div class="info-label">Facebook Name</div><div id="infoFacebookName" class="info-value">-</div></div><div class="info-box"><div class="info-label">Customer Name</div><div id="infoCustomerName" class="info-value">-</div></div><div class="info-box"><div class="info-label">Customer Type</div><div id="infoCustomerType" class="info-value">-</div></div></div>
-          <div class="stats-grid"><div class="stat-card"><div class="stat-label">Amount Bought</div><div id="homeBoughtAmount" class="stat-value">₱0.00</div></div><div class="stat-card"><div class="stat-label">Amount Sold</div><div id="homeSoldAmount" class="stat-value">₱0.00</div></div><div class="stat-card"><div class="stat-label">Buy Points</div><div id="buyCount" class="stat-value">0</div></div><div class="stat-card"><div class="stat-label">Sell Points</div><div id="sellCount" class="stat-value">0</div></div></div><div class="stat-card" style="margin-top:12px"><div class="stat-label">Total Points</div><div id="totalPoints" class="stat-value">0</div></div>
-          <div class="transaction-section"><h3>Record Transaction</h3><div id="transactionMessage"></div><div class="transaction-buttons"><button id="buyButton" class="transaction-btn active" data-type="Buy">BUY</button><button id="sellButton" class="transaction-btn" data-type="Sell">SELL</button></div><div class="amount-row"><input id="amountInput" class="form-control" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="Transaction amount"><button id="transactionButton" class="transaction-confirm-btn">Confirm Transaction</button></div><p class="transaction-note">Every Buy or Sell transaction automatically adds <strong>+1 point</strong>.</p></div>
-        </section>
-        <section id="emptyState" class="card empty-box">Search or scan a customer's membership QR code to begin.</section>
+     <section class="page-section" id="pageHome">
+      <h1 class="page-title">
+       Home
+      </h1>
+      <p class="page-subtitle">
+       Search customers and record rewards transactions.
+      </p>
+      <section class="card">
+       <h2 class="card-title">
+        Find Customer
+       </h2>
+       <p class="card-description">
+        Search using Membership QR ID, Ticket Number, customer name, or Facebook name.
+       </p>
+       <div id="searchMessage">
+       </div>
+       <div class="search-row">
+        <input autocomplete="off" class="form-control" id="searchInput" placeholder="Enter QR ID, Ticket No., or customer name"/>
+        <button class="search-btn" id="searchButton">
+         Search
+        </button>
+        <button class="secondary-btn" id="clearSearchButton">
+         Clear
+        </button>
+        <button class="scan-btn" id="scanButton">
+         Scan QR
+        </button>
+       </div>
+       <div class="scanner-container hidden" id="scannerContainer">
+        <div id="qr-reader">
+        </div>
+        <div class="scanner-guidance">
+         Point the rear camera at the 1×1 inch membership QR. Move closer slowly until the QR is clear and centered.
+        </div>
+        <div class="scanner-status" id="scannerStatus">
+        </div>
+        <button class="scanner-close" id="closeScannerButton">
+         Close Scanner
+        </button>
+       </div>
       </section>
-
-      <section id="pageCustomers" class="page-section hidden"><h1 class="page-title">Customers</h1><p class="page-subtitle">Registered customers only. Staff can update membership information.</p><section class="card"><div class="filters"><input id="customerSearch" class="form-control" placeholder="Search Ticket No., Membership ID, name, or Facebook name"><select id="customerTypeFilter" class="form-control"><option value="">All Customer Types</option><option>Regular</option><option>Special</option><option>Very Special</option></select><button id="customerRefresh" class="secondary-btn">Refresh</button></div><div id="customersMessage"></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Ticket No.</th><th>Membership ID</th><th>Customer Name</th><th>Facebook Name</th><th>Customer Type</th><th>Points</th><th></th></tr></thead><tbody id="customersBody"></tbody></table></div><div id="customersEmpty" class="empty-box hidden">No registered customers found.</div><div class="pagination"><span id="customersPageInfo"></span><div class="pagination-buttons"><button id="customersPrev" class="secondary-btn">Previous</button><button id="customersNext" class="secondary-btn">Next</button></div></div></section></section>
-
-      <section id="pageHistory" class="page-section hidden"><h1 class="page-title">Transaction History</h1><p class="page-subtitle">Select a registered customer to view their transaction history.</p><section class="card"><div class="filters"><input id="historySearch" class="form-control" placeholder="Search customer"><select id="historyTypeFilter" class="form-control"><option value="">All Customer Types</option><option>Regular</option><option>Special</option><option>Very Special</option></select><button id="historyRefresh" class="secondary-btn">Refresh</button></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Ticket No.</th><th>Membership ID</th><th>Customer Name</th><th>Facebook Name</th><th>Customer Type</th><th></th></tr></thead><tbody id="historyCustomersBody"></tbody></table></div><div id="historyEmpty" class="empty-box hidden">No registered customers found.</div><div class="pagination"><span id="historyPageInfo"></span><div class="pagination-buttons"><button id="historyPrev" class="secondary-btn">Previous</button><button id="historyNext" class="secondary-btn">Next</button></div></div></section></section>
-
-      <section id="pageReports" class="page-section hidden"><h1 class="page-title">Reports</h1><p class="page-subtitle">Review monthly customer performance by amount or points.</p><section class="card"><div class="report-controls"><input id="reportMonth" class="form-control" type="month"><select id="reportType" class="form-control"><option value="All">All Transactions</option><option value="Buy">Buy Only</option><option value="Sell">Sell Only</option></select><select id="reportSort" class="form-control"><option value="sold">Highest Sold Amount</option><option value="bought">Highest Bought Amount</option><option value="sellpoints">Highest Sell Points</option><option value="buypoints">Highest Buy Points</option><option value="points">Highest Total Points</option></select><button id="reportRun" class="search-btn">Run Report</button></div><div id="reportMessage"></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Rank</th><th>Customer</th><th>Membership ID</th><th>Sold Amount</th><th>Bought Amount</th><th>Sell Points</th><th>Buy Points</th><th>Total Points</th></tr></thead><tbody id="reportBody"></tbody></table></div><div id="reportEmpty" class="empty-box hidden">No transactions for the selected filters.</div></section></section>
+      <section class="card hidden" id="customerSection">
+       <div class="customer-header">
+        <div>
+         <div class="customer-name" id="customerName">
+          Customer
+         </div>
+         <div class="customer-type" id="customerType">
+          Regular
+         </div>
+        </div>
+        <div class="customer-id">
+         <div>
+          Membership ID
+         </div>
+         <strong id="customerId">
+          -
+         </strong>
+         <div style="margin-top:8px">
+          Ticket No.
+         </div>
+         <strong id="infoTicketNo">
+          -
+         </strong>
+        </div>
+       </div>
+       <div class="customer-info-grid">
+        <div class="info-box">
+         <div class="info-label">
+          Facebook Name
+         </div>
+         <div class="info-value" id="infoFacebookName">
+          -
+         </div>
+        </div>
+        <div class="info-box">
+         <div class="info-label">
+          Customer Name
+         </div>
+         <div class="info-value" id="infoCustomerName">
+          -
+         </div>
+        </div>
+        <div class="info-box">
+         <div class="info-label">
+          Customer Type
+         </div>
+         <div class="info-value" id="infoCustomerType">
+          -
+         </div>
+        </div>
+       </div>
+       <div class="stats-grid">
+        <div class="stat-card">
+         <div class="stat-label">
+          Amount Bought
+         </div>
+         <div class="stat-value" id="homeBoughtAmount">
+          ₱0.00
+         </div>
+        </div>
+        <div class="stat-card">
+         <div class="stat-label">
+          Amount Sold
+         </div>
+         <div class="stat-value" id="homeSoldAmount">
+          ₱0.00
+         </div>
+        </div>
+        <div class="stat-card">
+         <div class="stat-label">
+          Buy Points
+         </div>
+         <div class="stat-value" id="buyCount">
+          0
+         </div>
+        </div>
+        <div class="stat-card">
+         <div class="stat-label">
+          Sell Points
+         </div>
+         <div class="stat-value" id="sellCount">
+          0
+         </div>
+        </div>
+       </div>
+       <div class="stat-card" style="margin-top:12px">
+        <div class="stat-label">
+         Total Points
+        </div>
+        <div class="stat-value" id="totalPoints">
+         0
+        </div>
+       </div>
+       <div class="transaction-section">
+        <h3>
+         Record Transaction
+        </h3>
+        <div id="transactionMessage">
+        </div>
+        <div class="transaction-buttons">
+         <button class="transaction-btn active" data-type="Buy" id="buyButton">
+          BUY
+         </button>
+         <button class="transaction-btn" data-type="Sell" id="sellButton">
+          SELL
+         </button>
+        </div>
+        <div class="amount-row">
+         <input class="form-control" id="amountInput" inputmode="decimal" min="0.01" placeholder="Transaction amount" step="0.01" type="number"/>
+         <button class="transaction-confirm-btn" id="transactionButton">
+          Confirm Transaction
+         </button>
+        </div>
+        <p class="transaction-note">
+         Every Buy or Sell transaction automatically adds
+         <strong>
+          +1 point
+         </strong>
+         .
+        </p>
+       </div>
+      </section>
+      <section class="card empty-box" id="emptyState">
+       Search or scan a customer's membership QR code to begin.
+      </section>
+     </section>
+     <section class="page-section hidden" id="pageCustomers">
+      <h1 class="page-title">
+       Customers
+      </h1>
+      <p class="page-subtitle">
+       Registered customers only. Staff can update membership information.
+      </p>
+      <section class="card">
+       <div class="filters">
+        <input class="form-control" id="customerSearch" placeholder="Search Ticket No., Membership ID, name, or Facebook name"/>
+        <select class="form-control" id="customerTypeFilter">
+         <option value="">
+          All Customer Types
+         </option>
+         <option>
+          Regular
+         </option>
+         <option>
+          Special
+         </option>
+         <option>
+          Very Special
+         </option>
+        </select>
+        <button class="secondary-btn" id="customerRefresh">
+         Refresh
+        </button>
+       </div>
+       <div id="customersMessage">
+       </div>
+       <div class="table-wrap">
+        <table class="data-table">
+         <thead>
+          <tr>
+           <th>
+            Ticket No.
+           </th>
+           <th>
+            Membership ID
+           </th>
+           <th>
+            Customer Name
+           </th>
+           <th>
+            Facebook Name
+           </th>
+           <th>
+            Customer Type
+           </th>
+           <th>
+            Points
+           </th>
+           <th>
+           </th>
+          </tr>
+         </thead>
+         <tbody id="customersBody">
+         </tbody>
+        </table>
+       </div>
+       <div class="empty-box hidden" id="customersEmpty">
+        No registered customers found.
+       </div>
+       <div class="pagination">
+        <span id="customersPageInfo">
+        </span>
+        <div class="pagination-buttons">
+         <button class="secondary-btn" id="customersPrev">
+          Previous
+         </button>
+         <button class="secondary-btn" id="customersNext">
+          Next
+         </button>
+        </div>
+       </div>
+      </section>
+     </section>
+     <section class="page-section hidden" id="pageHistory">
+      <h1 class="page-title">
+       Transaction History
+      </h1>
+      <p class="page-subtitle">
+       Select a registered customer to view their transaction history.
+      </p>
+      <section class="card">
+       <div class="filters">
+        <input class="form-control" id="historySearch" placeholder="Search customer"/>
+        <select class="form-control" id="historyTypeFilter">
+         <option value="">
+          All Customer Types
+         </option>
+         <option>
+          Regular
+         </option>
+         <option>
+          Special
+         </option>
+         <option>
+          Very Special
+         </option>
+        </select>
+        <button class="secondary-btn" id="historyRefresh">
+         Refresh
+        </button>
+       </div>
+       <div class="table-wrap">
+        <table class="data-table">
+         <thead>
+          <tr>
+           <th>
+            Ticket No.
+           </th>
+           <th>
+            Membership ID
+           </th>
+           <th>
+            Customer Name
+           </th>
+           <th>
+            Facebook Name
+           </th>
+           <th>
+            Customer Type
+           </th>
+           <th>
+           </th>
+          </tr>
+         </thead>
+         <tbody id="historyCustomersBody">
+         </tbody>
+        </table>
+       </div>
+       <div class="empty-box hidden" id="historyEmpty">
+        No registered customers found.
+       </div>
+       <div class="pagination">
+        <span id="historyPageInfo">
+        </span>
+        <div class="pagination-buttons">
+         <button class="secondary-btn" id="historyPrev">
+          Previous
+         </button>
+         <button class="secondary-btn" id="historyNext">
+          Next
+         </button>
+        </div>
+       </div>
+      </section>
+     </section>
+     <section class="page-section hidden" id="pageReports">
+      <h1 class="page-title">
+       Reports
+      </h1>
+      <p class="page-subtitle">
+       Review monthly customer performance by amount or points.
+      </p>
+      <section class="card">
+       <div class="report-controls">
+        <input class="form-control" id="reportMonth" type="month"/>
+        <select class="form-control" id="reportType">
+         <option value="All">
+          All Transactions
+         </option>
+         <option value="Buy">
+          Buy Only
+         </option>
+         <option value="Sell">
+          Sell Only
+         </option>
+        </select>
+        <select class="form-control" id="reportSort">
+         <option value="sold">
+          Highest Sold Amount
+         </option>
+         <option value="bought">
+          Highest Bought Amount
+         </option>
+         <option value="sellpoints">
+          Highest Sell Points
+         </option>
+         <option value="buypoints">
+          Highest Buy Points
+         </option>
+         <option value="points">
+          Highest Total Points
+         </option>
+        </select>
+        <button class="search-btn" id="reportRun">
+         Run Report
+        </button>
+       </div>
+       <div id="reportMessage">
+       </div>
+       <div class="table-wrap">
+        <table class="data-table">
+         <thead>
+          <tr>
+           <th>
+            Rank
+           </th>
+           <th>
+            Customer
+           </th>
+           <th>
+            Membership ID
+           </th>
+           <th>
+            Sold Amount
+           </th>
+           <th>
+            Bought Amount
+           </th>
+           <th>
+            Sell Points
+           </th>
+           <th>
+            Buy Points
+           </th>
+           <th>
+            Total Points
+           </th>
+          </tr>
+         </thead>
+         <tbody id="reportBody">
+         </tbody>
+        </table>
+       </div>
+       <div class="empty-box hidden" id="reportEmpty">
+        No transactions for the selected filters.
+       </div>
+      </section>
+     </section>
     </main>
+   </div>
+  </section>
+  <div class="modal-backdrop hidden" id="editModal">
+   <div class="modal">
+    <h2>
+     Edit Customer
+    </h2>
+    <div id="editMessage">
+    </div>
+    <div class="edit-grid">
+     <div>
+      <label>
+       Ticket Number
+      </label>
+      <input class="form-control" id="editTicketNo"/>
+     </div>
+     <div>
+      <label>
+       Membership ID
+      </label>
+      <input class="form-control" id="editCustomerId"/>
+     </div>
+     <div class="full">
+      <label>
+       Customer Name
+      </label>
+      <input class="form-control" id="editCustomerName"/>
+     </div>
+     <div class="full">
+      <label>
+       Facebook Name
+      </label>
+      <input class="form-control" id="editFacebookName"/>
+     </div>
+     <div class="full">
+      <label>
+       Customer Type
+      </label>
+      <select class="form-control" id="editCustomerType">
+       <option>
+        Regular
+       </option>
+       <option>
+        Special
+       </option>
+       <option>
+        Very Special
+       </option>
+      </select>
+     </div>
+    </div>
+    <div class="modal-actions">
+     <button id="editCancel">
+      Cancel
+     </button>
+     <button class="save-btn" id="editSave">
+      Save Changes
+     </button>
+    </div>
+   </div>
   </div>
-</section>
-
-<div id="editModal" class="modal-backdrop hidden"><div class="modal"><h2>Edit Customer</h2><div id="editMessage"></div><div class="edit-grid"><div><label>Ticket Number</label><input id="editTicketNo" class="form-control"></div><div><label>Membership ID</label><input id="editCustomerId" class="form-control"></div><div class="full"><label>Customer Name</label><input id="editCustomerName" class="form-control"></div><div class="full"><label>Facebook Name</label><input id="editFacebookName" class="form-control"></div><div class="full"><label>Customer Type</label><select id="editCustomerType" class="form-control"><option>Regular</option><option>Special</option><option>Very Special</option></select></div></div><div class="modal-actions"><button id="editCancel">Cancel</button><button id="editSave" class="save-btn">Save Changes</button></div></div></div>
-<div id="transactionsModal" class="modal-backdrop hidden"><div class="modal"><h2 id="transactionsTitle">Transactions</h2><div id="transactionsMessage"></div><div id="transactionSummary" class="summary-grid"></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Points</th><th>Total Points After</th></tr></thead><tbody id="transactionsBody"></tbody></table></div><div id="transactionsEmpty" class="empty-box hidden">No transactions found.</div><div class="modal-actions"><button id="transactionsClose">Close</button></div></div></div>
-
-<script>
-const API_URL="https://pfgji-rewards-api.pepesfinegoldjewelry.workers.dev";
+  <div class="modal-backdrop hidden" id="transactionsModal">
+   <div class="modal">
+    <h2 id="transactionsTitle">
+     Transactions
+    </h2>
+    <div id="transactionsMessage">
+    </div>
+    <div class="summary-grid" id="transactionSummary">
+    </div>
+    <div class="table-wrap">
+     <table class="data-table">
+      <thead>
+       <tr>
+        <th>
+         Date
+        </th>
+        <th>
+         Type
+        </th>
+        <th>
+         Amount
+        </th>
+        <th>
+         Points
+        </th>
+        <th>
+         Total Points After
+        </th>
+       </tr>
+      </thead>
+      <tbody id="transactionsBody">
+      </tbody>
+     </table>
+    </div>
+    <div class="empty-box hidden" id="transactionsEmpty">
+     No transactions found.
+    </div>
+    <div class="modal-actions">
+     <button id="transactionsClose">
+      Close
+     </button>
+    </div>
+   </div>
+  </div>
+  <script>
+   const API_URL="https://pfgji-rewards-api.pepesfinegoldjewelry.workers.dev";
 let sessionToken=sessionStorage.getItem("rewardsSessionToken")||"";
 let currentCustomer=null,selectedTransactionType="Buy",html5QrCode=null,scannerRunning=false;
 let customersPage=1,historyPage=1,customersTotalPages=1,historyTotalPages=1,editCustomer=null;
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat("en-PH",{style:"currency",currency:"PHP"}).format(Number(n)||0);
 const num=n=>new Intl.NumberFormat("en-US").format(Number(n)||0);
-function showLogin(){$("loginPage").classList.remove("hidden");$("appPage").classList.add("hidden")}
-function showApp(){$("loginPage").classList.add("hidden");$("appPage").classList.remove("hidden");showPage("home")}
-function setMsg(el,msg,type="error"){el.innerHTML=msg?`<div class="${type}-message">${escapeHtml(msg)}</div>`:""}
-function escapeHtml(v){return String(v??"").replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function showLogin(){$("loginPage").classList.remove("hidden");
+$("appPage").classList.add("hidden")} function showApp(){$("loginPage").classList.add("hidden");
+$("appPage").classList.remove("hidden");
+showPage("home")} function setMsg(el,msg,type="error"){el.innerHTML=msg?`<div class="${type}-message">${escapeHtml(msg)}</div>`:""} function escapeHtml(v){return String(v??"").replace(/[&<>'"]/g,c=>({'&':'&amp;
+','<':'&lt;
+','>':'&gt;
+',"'":'&#39;','"':'&quot;
+'}[c]))}
 function expired(r){return !r?.success&&/session expired|login again/i.test(r?.message||"")}
 async function api(action,payload={}){const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({action,token:sessionToken,...payload})});const d=await r.json();if(expired(d)){sessionStorage.removeItem("rewardsSessionToken");sessionToken="";showLogin()}return d}
 function openSidebar(){if(window.innerWidth<=900){$("sidebar").classList.add("open");$("overlay").classList.add("open")}}
@@ -169,6 +1386,6 @@ async function runReport(){const r=await api("reports",{month:$("reportMonth").v
 $("reportRun").onclick=runReport;
 
 if(sessionToken)showApp();else showLogin();
-</script>
-</body>
+  </script>
+ </body>
 </html>
