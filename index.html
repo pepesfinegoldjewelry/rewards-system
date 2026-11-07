@@ -308,6 +308,51 @@
       margin: 0 auto;
     }
 
+    .scanner-guidance {
+      max-width: 500px;
+      margin: 10px auto 0;
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .scanner-controls {
+      max-width: 500px;
+      margin: 10px auto 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .scanner-controls label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .scanner-zoom {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .scanner-zoom-value {
+      width: 48px;
+      text-align: right;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .scanner-status {
+      max-width: 500px;
+      margin: 8px auto 0;
+      text-align: center;
+      font-size: 12px;
+      color: #6b7280;
+      min-height: 16px;
+    }
+
     .scanner-close {
       width: 100%;
       margin-top: 10px;
@@ -484,6 +529,145 @@
     }
 
     /* =========================
+       REGISTERED CUSTOMERS
+       ========================= */
+
+    .registered-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .registered-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .secondary-btn {
+      min-height: 42px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      background: #ffffff;
+      color: #111827;
+      font-weight: 700;
+      padding: 0 13px;
+    }
+
+    .secondary-btn:hover {
+      background: #f9fafb;
+    }
+
+    .registered-filters {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 190px auto;
+      gap: 9px;
+      margin-bottom: 14px;
+    }
+
+    .registered-table-wrap {
+      overflow-x: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 11px;
+    }
+
+    .registered-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    .registered-table th,
+    .registered-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #eef0f2;
+      text-align: left;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    .registered-table th {
+      background: #f9fafb;
+      color: #6b7280;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .registered-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .registered-table td strong {
+      color: #111827;
+    }
+
+    .registered-id {
+      font-family: monospace;
+      font-size: 12px !important;
+      white-space: nowrap;
+    }
+
+    .view-customer-btn {
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      color: #111827;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .view-customer-btn:hover {
+      background: #f3f4f6;
+    }
+
+    .registered-empty {
+      padding: 30px 15px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .registered-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .registered-page-info {
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    .registered-pagination {
+      display: flex;
+      gap: 7px;
+    }
+
+    .registered-pagination button {
+      min-width: 82px;
+      min-height: 38px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #111827;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .registered-pagination button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* =========================
        EMPTY STATE
        ========================= */
 
@@ -642,6 +826,43 @@
         min-height: 48px;
         width: 100%;
       }
+
+      .registered-header {
+        flex-direction: column;
+      }
+
+      .registered-actions {
+        width: 100%;
+      }
+
+      .registered-actions .secondary-btn {
+        flex: 1;
+      }
+
+      .registered-filters {
+        grid-template-columns: 1fr;
+      }
+
+      .registered-filters .search-btn {
+        min-height: 44px;
+      }
+
+      .registered-footer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .registered-pagination {
+        width: 100%;
+      }
+
+      .registered-pagination button {
+        flex: 1;
+      }
+
+      .scanner-controls {
+        gap: 7px;
+      }
     }
 
     @media (max-width: 750px) {
@@ -790,13 +1011,23 @@
         </div>
       </div>
 
-      <button
-        id="logoutButton"
-        class="logout-btn"
-        type="button"
-      >
-        Logout
-      </button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button
+          id="registeredCustomersButton"
+          class="logout-btn"
+          type="button"
+        >
+          Registered Customers
+        </button>
+
+        <button
+          id="logoutButton"
+          class="logout-btn"
+          type="button"
+        >
+          Logout
+        </button>
+      </div>
 
     </header>
 
@@ -855,6 +1086,18 @@
 
           <div id="qr-reader"></div>
 
+          <div class="scanner-guidance">
+            Point the rear camera at the 1×1 inch membership QR. Move closer slowly until the QR is clear and centered.
+          </div>
+
+          <div id="scannerStatus" class="scanner-status"></div>
+
+          <div id="scannerZoomControls" class="scanner-controls hidden">
+            <label for="scannerZoom">Zoom</label>
+            <input id="scannerZoom" class="scanner-zoom" type="range" min="1" max="1" step="0.1" value="1" />
+            <span id="scannerZoomValue" class="scanner-zoom-value">1.0×</span>
+          </div>
+
           <button
             id="closeScannerButton"
             class="scanner-close"
@@ -863,6 +1106,93 @@
             Close Scanner
           </button>
 
+        </div>
+
+      </section>
+
+
+      <!-- REGISTERED CUSTOMERS -->
+
+      <section
+        id="registeredCustomersSection"
+        class="card hidden"
+      >
+
+        <div class="registered-header">
+          <div>
+            <h2 class="card-title">Registered Customers</h2>
+            <p class="card-description">
+              Search and view customers who have completed registration.
+            </p>
+          </div>
+
+          <div class="registered-actions">
+            <button id="refreshCustomersButton" class="secondary-btn" type="button">
+              Refresh
+            </button>
+            <button id="closeRegisteredCustomersButton" class="secondary-btn" type="button">
+              Close
+            </button>
+          </div>
+        </div>
+
+        <div id="registeredCustomersMessage"></div>
+
+        <div class="registered-filters">
+          <input
+            id="registeredSearchInput"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            placeholder="Search Ticket No., QR ID, customer name, or Facebook name"
+          />
+
+          <select id="registeredCustomerType" class="form-control">
+            <option value="">All Customer Types</option>
+            <option value="Regular">Regular</option>
+            <option value="Special">Special</option>
+            <option value="Very Special">Very Special</option>
+          </select>
+
+          <button id="registeredSearchButton" class="search-btn" type="button">
+            Search
+          </button>
+        </div>
+
+        <div id="registeredCustomersLoading" class="registered-empty hidden">
+          Loading registered customers...
+        </div>
+
+        <div id="registeredCustomersTableWrap" class="registered-table-wrap">
+          <table class="registered-table">
+            <thead>
+              <tr>
+                <th>Ticket No.</th>
+                <th>Membership QR ID</th>
+                <th>Customer Name</th>
+                <th>Facebook Name</th>
+                <th>Customer Type</th>
+                <th>Points</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="registeredCustomersBody"></tbody>
+          </table>
+        </div>
+
+        <div id="registeredCustomersEmpty" class="registered-empty hidden">
+          No registered customers found.
+        </div>
+
+        <div class="registered-footer">
+          <div id="registeredPageInfo" class="registered-page-info">
+            Page 1 of 1
+          </div>
+
+          <div class="registered-pagination">
+            <button id="registeredPreviousButton" type="button">Previous</button>
+            <button id="registeredNextButton" type="button">Next</button>
+          </div>
         </div>
 
       </section>
@@ -1235,6 +1565,73 @@
     const logoutButton =
       document.getElementById("logoutButton");
 
+    const registeredCustomersButton =
+      document.getElementById("registeredCustomersButton");
+
+    const registeredCustomersSection =
+      document.getElementById("registeredCustomersSection");
+
+    const closeRegisteredCustomersButton =
+      document.getElementById("closeRegisteredCustomersButton");
+
+    const refreshCustomersButton =
+      document.getElementById("refreshCustomersButton");
+
+    const registeredSearchInput =
+      document.getElementById("registeredSearchInput");
+
+    const registeredCustomerType =
+      document.getElementById("registeredCustomerType");
+
+    const registeredSearchButton =
+      document.getElementById("registeredSearchButton");
+
+    const registeredCustomersBody =
+      document.getElementById("registeredCustomersBody");
+
+    const registeredCustomersTableWrap =
+      document.getElementById("registeredCustomersTableWrap");
+
+    const registeredCustomersEmpty =
+      document.getElementById("registeredCustomersEmpty");
+
+    const registeredCustomersLoading =
+      document.getElementById("registeredCustomersLoading");
+
+    const registeredCustomersMessage =
+      document.getElementById("registeredCustomersMessage");
+
+    const registeredPageInfo =
+      document.getElementById("registeredPageInfo");
+
+    const registeredPreviousButton =
+      document.getElementById("registeredPreviousButton");
+
+    const registeredNextButton =
+      document.getElementById("registeredNextButton");
+
+    const scannerStatus =
+      document.getElementById("scannerStatus");
+
+    const scannerZoomControls =
+      document.getElementById("scannerZoomControls");
+
+    const scannerZoom =
+      document.getElementById("scannerZoom");
+
+    const scannerZoomValue =
+      document.getElementById("scannerZoomValue");
+
+    let registeredCustomersPage = 1;
+    const REGISTERED_CUSTOMERS_PAGE_SIZE = 25;
+    let registeredCustomersTotalPages = 1;
+    let registeredCustomersLoadingState = false;
+
+    let scannerVideoTrack = null;
+    let scannerZoomMin = 1;
+    let scannerZoomMax = 1;
+    let scannerZoomStep = 0.1;
+
     const searchInput =
       document.getElementById("searchInput");
 
@@ -1479,6 +1876,59 @@
       searchCustomer
     );
 
+    registeredCustomersButton.addEventListener(
+      "click",
+      openRegisteredCustomers
+    );
+
+    closeRegisteredCustomersButton.addEventListener(
+      "click",
+      closeRegisteredCustomers
+    );
+
+    refreshCustomersButton.addEventListener(
+      "click",
+      () => loadRegisteredCustomers(registeredCustomersPage)
+    );
+
+    registeredSearchButton.addEventListener(
+      "click",
+      () => loadRegisteredCustomers(1)
+    );
+
+    registeredSearchInput.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          loadRegisteredCustomers(1);
+        }
+      }
+    );
+
+    registeredCustomerType.addEventListener(
+      "change",
+      () => loadRegisteredCustomers(1)
+    );
+
+    registeredPreviousButton.addEventListener(
+      "click",
+      () => {
+        if (registeredCustomersPage > 1) {
+          loadRegisteredCustomers(registeredCustomersPage - 1);
+        }
+      }
+    );
+
+    registeredNextButton.addEventListener(
+      "click",
+      () => {
+        if (registeredCustomersPage < registeredCustomersTotalPages) {
+          loadRegisteredCustomers(registeredCustomersPage + 1);
+        }
+      }
+    );
+
 
     searchInput.addEventListener(
       "keydown",
@@ -1594,6 +2044,206 @@
 
     /*
      * ============================================================
+     * REGISTERED CUSTOMERS
+     * ============================================================
+     */
+
+    function openRegisteredCustomers() {
+      registeredCustomersSection.classList.remove("hidden");
+      loadRegisteredCustomers(1);
+      registeredCustomersSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    function closeRegisteredCustomers() {
+      registeredCustomersSection.classList.add("hidden");
+    }
+
+    async function loadRegisteredCustomers(page = 1) {
+      if (registeredCustomersLoadingState) {
+        return;
+      }
+
+      if (!sessionToken) {
+        showLogin();
+        return;
+      }
+
+      registeredCustomersLoadingState = true;
+      setRegisteredCustomersLoading(true);
+      clearRegisteredCustomersMessage();
+
+      try {
+        const result = await apiRequest(
+          "listcustomers",
+          {
+            searchTerm: registeredSearchInput.value.trim(),
+            customerType: registeredCustomerType.value,
+            page: page,
+            pageSize: REGISTERED_CUSTOMERS_PAGE_SIZE
+          },
+          true
+        );
+
+        if (!result.success) {
+          if (isSessionExpiredResponse(result)) {
+            handleSessionExpired();
+            return;
+          }
+
+          throw new Error(
+            result.message ||
+            "Unable to load registered customers."
+          );
+        }
+
+        registeredCustomersPage = Number(result.page) || page;
+        registeredCustomersTotalPages = Math.max(
+          1,
+          Number(result.totalPages) || 1
+        );
+
+        renderRegisteredCustomers(
+          Array.isArray(result.customers)
+            ? result.customers
+            : []
+        );
+
+        const total = Number(result.total) || 0;
+        registeredPageInfo.textContent =
+          total === 0
+            ? "No registered customers"
+            : `Page ${registeredCustomersPage} of ${registeredCustomersTotalPages} • ${formatNumber(total)} customer${total === 1 ? "" : "s"}`;
+
+        registeredPreviousButton.disabled =
+          registeredCustomersPage <= 1;
+
+        registeredNextButton.disabled =
+          registeredCustomersPage >= registeredCustomersTotalPages;
+
+      } catch (error) {
+        renderRegisteredCustomers([]);
+        showRegisteredCustomersMessage(
+          error.message ||
+          "Unable to load registered customers.",
+          "error"
+        );
+      } finally {
+        registeredCustomersLoadingState = false;
+        setRegisteredCustomersLoading(false);
+      }
+    }
+
+    function renderRegisteredCustomers(customers) {
+      registeredCustomersBody.innerHTML = "";
+
+      const hasCustomers = customers.length > 0;
+
+      registeredCustomersTableWrap.classList.toggle(
+        "hidden",
+        !hasCustomers
+      );
+
+      registeredCustomersEmpty.classList.toggle(
+        "hidden",
+        hasCustomers
+      );
+
+      if (!hasCustomers) {
+        return;
+      }
+
+      customers.forEach((customer) => {
+        const row = document.createElement("tr");
+
+        const ticketCell = document.createElement("td");
+        ticketCell.textContent = customer.ticketNo || "-";
+
+        const idCell = document.createElement("td");
+        idCell.className = "registered-id";
+        idCell.textContent = customer.customerId || "-";
+
+        const nameCell = document.createElement("td");
+        const nameStrong = document.createElement("strong");
+        nameStrong.textContent = customer.customerName || "-";
+        nameCell.appendChild(nameStrong);
+
+        const facebookCell = document.createElement("td");
+        facebookCell.textContent = customer.facebookName || "-";
+
+        const typeCell = document.createElement("td");
+        typeCell.textContent = customer.customerType || "-";
+
+        const pointsCell = document.createElement("td");
+        pointsCell.textContent = formatNumber(customer.totalPoints);
+
+        const actionCell = document.createElement("td");
+        const viewButton = document.createElement("button");
+        viewButton.type = "button";
+        viewButton.className = "view-customer-btn";
+        viewButton.textContent = "View Details";
+        viewButton.addEventListener("click", () => {
+          setCustomer(customer);
+          customerSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        });
+        actionCell.appendChild(viewButton);
+
+        row.append(
+          ticketCell,
+          idCell,
+          nameCell,
+          facebookCell,
+          typeCell,
+          pointsCell,
+          actionCell
+        );
+
+        registeredCustomersBody.appendChild(row);
+      });
+    }
+
+    function setRegisteredCustomersLoading(loading) {
+      registeredCustomersLoading.classList.toggle(
+        "hidden",
+        !loading
+      );
+
+      if (loading) {
+        registeredCustomersTableWrap.classList.add("hidden");
+        registeredCustomersEmpty.classList.add("hidden");
+      }
+    }
+
+    function showRegisteredCustomersMessage(
+      message,
+      type = "info"
+    ) {
+      registeredCustomersMessage.innerHTML = "";
+
+      const div = document.createElement("div");
+      div.className =
+        type === "error"
+          ? "error-message"
+          : type === "success"
+            ? "success-message"
+            : "info-message";
+      div.textContent = message;
+
+      registeredCustomersMessage.appendChild(div);
+    }
+
+    function clearRegisteredCustomersMessage() {
+      registeredCustomersMessage.innerHTML = "";
+    }
+
+
+    /*
+     * ============================================================
      * QR SCANNER
      * ============================================================
      */
@@ -1616,110 +2266,214 @@
         return;
       }
 
-      scannerContainer.classList.remove(
-        "hidden"
-      );
+      scannerContainer.classList.remove("hidden");
+      scannerStatus.textContent =
+        "Starting rear camera...";
+      scannerZoomControls.classList.add("hidden");
 
       try {
-
         html5QrCode =
           new Html5Qrcode("qr-reader");
 
         scannerRunning = true;
 
+        const isMobile =
+          window.matchMedia("(max-width: 750px)").matches;
+
+        const qrBoxSize = isMobile ? 175 : 210;
+
         await html5QrCode.start(
           {
-            facingMode: "environment"
+            facingMode: { ideal: "environment" }
           },
           {
-            fps: 10,
+            fps: 15,
             qrbox: {
-              width: 250,
-              height: 250
+              width: qrBoxSize,
+              height: qrBoxSize
+            },
+            aspectRatio: 1.7777778,
+            disableFlip: true,
+            videoConstraints: {
+              facingMode: { ideal: "environment" },
+              width: { ideal: 1920 },
+              height: { ideal: 1080 }
             }
           },
           async (decodedText) => {
-
             const qrId =
               normalizeQrId(decodedText);
 
-            searchInput.value =
-              qrId;
+            if (!qrId) {
+              return;
+            }
+
+            searchInput.value = qrId;
+            scannerStatus.textContent =
+              "QR detected. Loading customer...";
 
             await stopScanner();
-
             await searchCustomer();
-
           },
           () => {
-            // Ignore continuous scanner failures.
+            scannerStatus.textContent =
+              "Scanning... Move closer if the 1×1 inch QR is not detected.";
           }
         );
 
+        configureScannerZoom();
+
+        scannerStatus.textContent =
+          scannerVideoTrack
+            ? "Scanning automatically. Use zoom if available."
+            : "Scanning automatically. Move closer and keep the QR centered.";
+
       } catch (error) {
-
         scannerRunning = false;
+        scannerVideoTrack = null;
+        scannerZoomControls.classList.add("hidden");
+        scannerContainer.classList.add("hidden");
 
-        scannerContainer.classList.add(
-          "hidden"
-        );
+        let message =
+          "Unable to access the camera. Please allow camera permission or enter the Membership QR ID manually.";
 
-        showSearchMessage(
-          "Unable to access the camera. Please allow camera permission or enter the Membership QR ID manually.",
-          "error"
-        );
+        if (error && error.message) {
+          const lower = String(error.message).toLowerCase();
+          if (lower.includes("permission") || lower.includes("notallowed")) {
+            message =
+              "Camera permission was denied. Allow camera access for this site, then try Scan QR again.";
+          }
+        }
 
+        showSearchMessage(message, "error");
       }
-
     }
 
+    function configureScannerZoom() {
+      scannerVideoTrack = null;
+
+      const video =
+        document.querySelector("#qr-reader video");
+
+      if (!video || !video.srcObject) {
+        return;
+      }
+
+      const tracks =
+        video.srcObject.getVideoTracks();
+
+      if (!tracks || !tracks.length) {
+        return;
+      }
+
+      const track = tracks[0];
+      const capabilities =
+        typeof track.getCapabilities === "function"
+          ? track.getCapabilities()
+          : {};
+
+      if (!capabilities.zoom) {
+        return;
+      }
+
+      scannerVideoTrack = track;
+      scannerZoomMin =
+        Number(capabilities.zoom.min) || 1;
+      scannerZoomMax =
+        Number(capabilities.zoom.max) || scannerZoomMin;
+      scannerZoomStep =
+        Number(capabilities.zoom.step) || 0.1;
+
+      if (scannerZoomMax <= scannerZoomMin) {
+        scannerZoomControls.classList.add("hidden");
+        return;
+      }
+
+      const currentSettings =
+        typeof track.getSettings === "function"
+          ? track.getSettings()
+          : {};
+
+      const currentZoom =
+        Number(currentSettings.zoom);
+
+      const initialZoom =
+        Number.isFinite(currentZoom)
+          ? currentZoom
+          : scannerZoomMin;
+
+      scannerZoom.min = String(scannerZoomMin);
+      scannerZoom.max = String(scannerZoomMax);
+      scannerZoom.step = String(scannerZoomStep);
+      scannerZoom.value = String(
+        Math.min(
+          scannerZoomMax,
+          Math.max(scannerZoomMin, initialZoom)
+        )
+      );
+
+      updateScannerZoomLabel();
+      scannerZoomControls.classList.remove("hidden");
+    }
+
+    scannerZoom.addEventListener("input", async () => {
+      if (!scannerVideoTrack) {
+        return;
+      }
+
+      const zoom = Number(scannerZoom.value);
+      if (!Number.isFinite(zoom)) {
+        return;
+      }
+
+      updateScannerZoomLabel();
+
+      try {
+        await scannerVideoTrack.applyConstraints({
+          advanced: [{ zoom }]
+        });
+      } catch (_) {
+        scannerStatus.textContent =
+          "Zoom is not supported by this camera.";
+      }
+    });
+
+    function updateScannerZoomLabel() {
+      const zoom = Number(scannerZoom.value);
+      scannerZoomValue.textContent =
+        `${Number.isFinite(zoom) ? zoom.toFixed(1) : "1.0"}×`;
+    }
 
     async function stopScanner() {
 
       if (!html5QrCode) {
-
-        scannerContainer.classList.add(
-          "hidden"
-        );
-
+        scannerContainer.classList.add("hidden");
         scannerRunning = false;
-
+        scannerVideoTrack = null;
+        scannerZoomControls.classList.add("hidden");
         return;
-
       }
 
       try {
-
         if (scannerRunning) {
-
           await html5QrCode.stop();
-
         }
-
       } catch (_) {
-
         // Ignore scanner stop errors.
-
       }
 
       try {
-
         html5QrCode.clear();
-
       } catch (_) {
-
         // Ignore clear errors.
-
       }
 
       html5QrCode = null;
-
       scannerRunning = false;
-
-      scannerContainer.classList.add(
-        "hidden"
-      );
-
+      scannerVideoTrack = null;
+      scannerZoomControls.classList.add("hidden");
+      scannerStatus.textContent = "";
+      scannerContainer.classList.add("hidden");
     }
 
 
@@ -2241,6 +2995,8 @@ function setCustomer(customer) {
       );
 
       clearCustomer();
+
+      registeredCustomersSection.classList.add("hidden");
 
       searchInput.value = "";
 
